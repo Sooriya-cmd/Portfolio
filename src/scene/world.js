@@ -1,11 +1,12 @@
 /**
- * world.js — 3D Scene Graph, Lighting, Environment Props, Signals, and Sky
+ * world.js — 3D Scene Graph, Lighting, Environment Props, Signals, Birds, and Sky
  */
 
 import * as THREE from 'three';
 import { createUtilityPole } from './pole.js';
 import { createWires } from './wires.js';
 import { createTrafficSignal, createJackpotSignal } from './signals.js';
+import { populateSceneBirds } from './birds.js';
 import { CloudsField } from './clouds.js';
 import { DayNightCycle } from './dayNight.js';
 import { cameraPositionCurve } from '../config/path.js';
@@ -19,6 +20,7 @@ export class World {
     this.initLights();
     this.dayNight = new DayNightCycle(this.scene);
     this.initProps();
+    this.birds = populateSceneBirds(this.group);
     this.clouds = new CloudsField(this.scene, 16);
 
     // Dev-only debug path curve
@@ -65,10 +67,19 @@ export class World {
     this.scene.add(this.debugPathLine);
   }
 
-  update(progress = 0, deltaTime = 0.016) {
+  update(progress = 0, deltaTime = 0.016, elapsedTime = 0) {
     // Update drifting clouds
     if (this.clouds) {
       this.clouds.update(deltaTime);
+    }
+
+    // Update birds idle breathing, tilt, and blinking
+    if (this.birds && this.birds.length > 0) {
+      this.birds.forEach(bird => {
+        if (bird.userData && bird.userData.update) {
+          bird.userData.update(elapsedTime);
+        }
+      });
     }
 
     // Update day-night transitions

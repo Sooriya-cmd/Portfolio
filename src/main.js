@@ -9,6 +9,7 @@ import { CHAPTER_RANGES } from './config/path.js';
 import { initLenis, getLenis } from './scroll/lenis.js';
 import { createScene } from './scene/createScene.js';
 import { initScrollTimeline } from './scroll/timeline.js';
+import { initEntryScreen } from './ui/entryScreen.js';
 
 // DOM Mount Targets
 const contentMount = document.getElementById('content-mount');
@@ -467,13 +468,24 @@ initChapterMenu();
 initScrollTracking();
 initSoundControl();
 
-// 2. Initialize Lenis Smooth Scroller
+// 2. Initialize Entry Welcome Screen
+initEntryScreen({
+  onEnter3D: () => {
+    console.log('Entered Sky Street 3D World');
+  },
+  onEnter2D: () => {
+    console.log('Entered Accessible Non-3D Mode');
+    if (canvasContainer) canvasContainer.style.display = 'none';
+  }
+});
+
+// 3. Initialize Lenis Smooth Scroller
 const lenis = initLenis();
 
-// 3. Initialize Three.js 3D World
+// 4. Initialize Three.js 3D World
 const sceneContext = createScene(canvasContainer);
 
-// 4. Synchronize ScrollTrigger with Camera Rig
+// 5. Synchronize ScrollTrigger with Camera Rig
 if (sceneContext && sceneContext.cameraRig) {
   initScrollTimeline(sceneContext.cameraRig);
 }

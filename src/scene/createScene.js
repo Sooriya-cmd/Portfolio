@@ -53,7 +53,7 @@ export function createScene(container) {
     const elapsedTime = clock.getElapsedTime();
 
     cameraRig.update(deltaTime, elapsedTime);
-    world.update(cameraRig.progress, deltaTime);
+    world.update(cameraRig.progress, deltaTime, elapsedTime);
 
     renderer.render(scene, camera);
   }
