@@ -5,7 +5,7 @@
 import * as THREE from 'three';
 import { createUtilityPole } from './pole.js';
 import { createWires } from './wires.js';
-import { createTrafficSignal, createJackpotSignal } from './signals.js';
+import { createTrafficSignal, createJackpotSignal, createSnakeArcadeBox, createFinalePartyProps } from './signals.js';
 import { populateSceneBirds } from './birds.js';
 import { CloudsField } from './clouds.js';
 import { DayNightCycle } from './dayNight.js';
@@ -40,21 +40,31 @@ export class World {
 
   initProps() {
     // 1. Utility pole with stickers and signs
-    const { group: poleGroup, heroCrossbar } = createUtilityPole();
+    const { group: poleGroup } = createUtilityPole();
     this.group.add(poleGroup);
     this.pole = poleGroup;
 
-    // 2. Traffic Signal suspended under hero crossbar (x ≈ 1.8, y ≈ 2.5)
+    // 2. Traffic Signal suspended under hero crossbar (x ≈ 1.8, y ≈ 2.3)
     this.trafficSignal = createTrafficSignal();
     this.trafficSignal.position.set(1.8, 2.3, 0.1);
     this.group.add(this.trafficSignal);
 
-    // 3. Jackpot Signal at More Projects milestone (x ≈ 2.2, y ≈ -19.2)
+    // 3. Jackpot Signal at More Projects milestone (x ≈ 2.2, y ≈ -19.0)
     this.jackpotSignal = createJackpotSignal();
     this.jackpotSignal.position.set(2.2, -19.0, 0.2);
     this.group.add(this.jackpotSignal);
 
-    // 4. Sagging catenary wires
+    // 4. Snake Arcade Box at Contacts milestone (x ≈ 1.8, y ≈ -22.5)
+    this.snakeArcade = createSnakeArcadeBox();
+    this.snakeArcade.position.set(1.8, -22.5, 0.2);
+    this.group.add(this.snakeArcade);
+
+    // 5. Finale Party Props (Disco Ball, Bunting, Loudspeakers) at The End (x ≈ 1.8, y ≈ -25.2)
+    this.finaleProps = createFinalePartyProps();
+    this.finaleProps.position.set(1.8, -25.2, 0);
+    this.group.add(this.finaleProps);
+
+    // 6. Sagging catenary wires
     this.wires = createWires();
     this.group.add(this.wires);
   }
@@ -80,6 +90,16 @@ export class World {
           bird.userData.update(elapsedTime);
         }
       });
+    }
+
+    // Update Snake arcade screen
+    if (this.snakeArcade && this.snakeArcade.userData && this.snakeArcade.userData.update) {
+      this.snakeArcade.userData.update(elapsedTime);
+    }
+
+    // Update Finale Disco Ball
+    if (this.finaleProps && this.finaleProps.userData && this.finaleProps.userData.update) {
+      this.finaleProps.userData.update(elapsedTime);
     }
 
     // Update day-night transitions
