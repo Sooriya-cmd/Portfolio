@@ -11,6 +11,8 @@ import { createScene } from './scene/createScene.js';
 import { initScrollTimeline } from './scroll/timeline.js';
 import { initEntryScreen } from './ui/entryScreen.js';
 import { initPortfolioOverlay } from './ui/overlay.js';
+import { checkWebGLSupport } from './utils/device.js';
+import { initAccessibility } from './utils/accessibility.js';
 
 // DOM Mount Targets
 const contentMount = document.getElementById('content-mount');
@@ -222,8 +224,16 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
-// 1. Kick off UI rendering
+// 1. Kick off UI rendering and Accessibility
 initMetadata();
+initAccessibility();
+const hasWebGL = checkWebGLSupport();
+
+if (!hasWebGL) {
+  document.body.classList.add('is-2d-mode');
+  console.warn('WebGL unsupported on this device. Initialized accessible Non-3D portfolio.');
+}
+
 const projectShowcase = initPortfolioOverlay(contentMount);
 bindInteractiveLinks();
 initChapterMenu();
@@ -233,10 +243,14 @@ initSoundControl();
 // 2. Initialize Entry Welcome Screen
 initEntryScreen({
   onEnter3D: () => {
-    console.log('Entered Sky Street 3D World');
+    if (hasWebGL) {
+      document.body.classList.remove('is-2d-mode');
+      document.body.classList.add('is-3d-mode');
+    }
   },
   onEnter2D: () => {
-    console.log('Entered Accessible Non-3D Mode');
+    document.body.classList.add('is-2d-mode');
+    document.body.classList.remove('is-3d-mode');
     if (canvasContainer) canvasContainer.style.display = 'none';
   }
 });
@@ -244,8 +258,11 @@ initEntryScreen({
 // 3. Initialize Lenis Smooth Scroller
 const lenis = initLenis();
 
-// 4. Initialize Three.js 3D World
-const sceneContext = createScene(canvasContainer);
+// 4. Initialize Three.js 3D World (if WebGL available)
+let sceneContext = null;
+if (hasWebGL) {
+  sceneContext = createScene(canvasContainer);
+}
 
 // 5. Synchronize ScrollTrigger with Camera Rig and Project Showcase
 if (sceneContext && sceneContext.cameraRig) {
