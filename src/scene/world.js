@@ -1,9 +1,13 @@
 /**
- * world.js — 3D Scene Graph, Lighting, Sky, and Greybox Props
+ * world.js — 3D Scene Graph, Lighting, Environment Props, Signals, and Sky
  */
 
 import * as THREE from 'three';
-import { THEME } from '../config/theme.js';
+import { createUtilityPole } from './pole.js';
+import { createWires } from './wires.js';
+import { createTrafficSignal, createJackpotSignal } from './signals.js';
+import { CloudsField } from './clouds.js';
+import { DayNightCycle } from './dayNight.js';
 import { cameraPositionCurve } from '../config/path.js';
 
 export class World {
@@ -13,8 +17,9 @@ export class World {
     this.scene.add(this.group);
     
     this.initLights();
-    this.initSky();
-    this.initGreyboxProps();
+    this.dayNight = new DayNightCycle(this.scene);
+    this.initProps();
+    this.clouds = new CloudsField(this.scene, 16);
 
     // Dev-only debug path curve
     if (import.meta.env.DEV) {
@@ -31,75 +36,25 @@ export class World {
     this.scene.add(this.dirLight);
   }
 
-  initSky() {
-    // Sky Dome with vertical gradient
-    const skyGeo = new THREE.SphereGeometry(60, 32, 15);
-    const skyMat = new THREE.ShaderMaterial({
-      uniforms: {
-        topColor: { value: new THREE.Color(THEME.colors.skyDayZenith) },
-        bottomColor: { value: new THREE.Color(THEME.colors.skyDayHorizon) },
-        offset: { value: 5 },
-        exponent: { value: 0.6 }
-      },
-      vertexShader: `
-        varying vec3 vWorldPosition;
-        void main() {
-          vec4 worldPosition = modelMatrix * vec4(position, 1.0);
-          vWorldPosition = worldPosition.xyz;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        uniform vec3 topColor;
-        uniform vec3 bottomColor;
-        uniform float offset;
-        uniform float exponent;
-        varying vec3 vWorldPosition;
-        void main() {
-          float h = normalize(vWorldPosition + offset).y;
-          gl_FragColor = vec4(mix(bottomColor, topColor, max(pow(max(h, 0.0), exponent), 0.0)), 1.0);
-        }
-      `,
-      side: THREE.BackSide,
-      depthWrite: false
-    });
+  initProps() {
+    // 1. Utility pole with stickers and signs
+    const { group: poleGroup, heroCrossbar } = createUtilityPole();
+    this.group.add(poleGroup);
+    this.pole = poleGroup;
 
-    this.sky = new THREE.Mesh(skyGeo, skyMat);
-    this.scene.add(this.sky);
-  }
+    // 2. Traffic Signal suspended under hero crossbar (x ≈ 1.8, y ≈ 2.5)
+    this.trafficSignal = createTrafficSignal();
+    this.trafficSignal.position.set(1.8, 2.3, 0.1);
+    this.group.add(this.trafficSignal);
 
-  initGreyboxProps() {
-    // Tall purple pole on the right anchor (x ≈ 3.6)
-    const poleGeo = new THREE.CylinderGeometry(0.35, 0.35, 34, 16);
-    const poleMat = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(THEME.colors.polePurple),
-      roughness: 0.4,
-      metalness: 0.1
-    });
-    this.pole = new THREE.Mesh(poleGeo, poleMat);
-    this.pole.position.set(3.6, -11, 0);
-    this.group.add(this.pole);
+    // 3. Jackpot Signal at More Projects milestone (x ≈ 2.2, y ≈ -19.2)
+    this.jackpotSignal = createJackpotSignal();
+    this.jackpotSignal.position.set(2.2, -19.0, 0.2);
+    this.group.add(this.jackpotSignal);
 
-    // Crossbar arms extending left from pole
-    const crossbarGeo = new THREE.BoxGeometry(3.5, 0.15, 0.15);
-    const crossbarMat = new THREE.MeshStandardMaterial({ color: 0x4B307B, roughness: 0.5 });
-    
-    // Top hero crossbar
-    const heroCrossbar = new THREE.Mesh(crossbarGeo, crossbarMat);
-    heroCrossbar.position.set(2.0, 2.5, 0);
-    this.group.add(heroCrossbar);
-
-    // Placeholder panel on the left (x ≈ -2.2)
-    const panelGeo = new THREE.BoxGeometry(4.0, 2.5, 0.2);
-    const panelMat = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(THEME.colors.panelBg),
-      roughness: 0.3
-    });
-    const panelFrameMat = new THREE.MeshStandardMaterial({ color: 0x121324 });
-
-    this.panelPlaceholder = new THREE.Mesh(panelGeo, panelMat);
-    this.panelPlaceholder.position.set(-2.2, 2.2, 0);
-    this.group.add(this.panelPlaceholder);
+    // 4. Sagging catenary wires
+    this.wires = createWires();
+    this.group.add(this.wires);
   }
 
   initDebugPath() {
@@ -110,7 +65,15 @@ export class World {
     this.scene.add(this.debugPathLine);
   }
 
-  update(progress = 0) {
-    // Update sky or lights along progress if needed
+  update(progress = 0, deltaTime = 0.016) {
+    // Update drifting clouds
+    if (this.clouds) {
+      this.clouds.update(deltaTime);
+    }
+
+    // Update day-night transitions
+    if (this.dayNight) {
+      this.dayNight.update(progress, this.dirLight, this.hemiLight);
+    }
   }
 }
