@@ -7,7 +7,16 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: true,
-    target: 'esnext'
+    target: 'esnext',
+    chunkSizeWarningLimit: 800,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          three: ['three'],
+          motion: ['gsap', 'lenis']
+        }
+      }
+    }
   },
   server: {
     port: 5173,
