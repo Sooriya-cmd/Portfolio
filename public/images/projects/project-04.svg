@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <rect width="800" height="500" fill="#0C0D1B"/>
+  
+  <!-- Orbiting Rings -->
+  <g transform="translate(400, 250)">
+    <!-- Central Star -->
+    <circle cx="0" cy="0" r="48" fill="#FFB703"/>
+    <circle cx="0" cy="0" r="58" fill="none" stroke="#FB8500" stroke-width="2" stroke-opacity="0.5"/>
+    
+    <!-- Orbits -->
+    <ellipse cx="0" cy="0" rx="140" ry="70" fill="none" stroke="#219EBC" stroke-width="2" transform="rotate(-25)"/>
+    <ellipse cx="0" cy="0" rx="220" ry="100" fill="none" stroke="#8ECAE6" stroke-width="2" stroke-dasharray="4,4" transform="rotate(15)"/>
+    <ellipse cx="0" cy="0" rx="300" ry="130" fill="none" stroke="#FFB703" stroke-width="1.5" stroke-opacity="0.4" transform="rotate(-40)"/>
+    
+    <!-- Orbiting Bodies -->
+    <circle cx="-110" cy="-45" r="16" fill="#023047" stroke="#8ECAE6" stroke-width="2"/>
+    <circle cx="180" cy="50" r="22" fill="#FB8500"/>
+    <circle cx="-210" cy="80" r="12" fill="#219EBC"/>
+    
+    <!-- Audio Waveform Ring -->
+    <path d="M -160,0 Q -140,-30 -120,0 T -80,0 T -40,0 T 0,0 T 40,0 T 80,0 T 120,0 T 160,0" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-opacity="0.3"/>
+  </g>
+  
+  <rect x="40" y="40" width="160" height="34" rx="17" fill="#219EBC"/>
+  <text x="120" y="62" font-family="'Inter', sans-serif" font-size="13" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">PROJECT 04</text>
+  <text x="760" y="460" font-family="'Inter', sans-serif" font-size="16" font-weight="700" fill="#FFB703" text-anchor="end">ORBITAL SOUNDSCAPE</text>
+</svg>

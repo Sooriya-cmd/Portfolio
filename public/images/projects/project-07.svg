@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="sky7" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4A90E2"/>
+      <stop offset="100%" stop-color="#E8A7A1"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#sky7)"/>
+  
+  <!-- Isometric Island Base -->
+  <g transform="translate(400, 310)">
+    <!-- Top Face (Grass) -->
+    <polygon points="0,-100 220,10 0,120 -220,10" fill="#7CB342"/>
+    <!-- Left Face (Dirt/Rock) -->
+    <polygon points="-220,10 0,120 0,180 -220,70" fill="#689F38"/>
+    <!-- Right Face (Dirt/Rock dark) -->
+    <polygon points="0,120 220,10 220,70 0,180" fill="#558B2F"/>
+    
+    <!-- Isometric House -->
+    <polygon points="-40,-40 20,-10 20,-70 -40,-100" fill="#FF7043"/>
+    <polygon points="20,-10 70,-35 70,-95 20,-70" fill="#D84315"/>
+    <polygon points="-40,-100 20,-70 50,-115 -10,-145" fill="#FFE082"/>
+    <polygon points="20,-70 70,-95 100,-140 50,-115" fill="#FFD54F"/>
+    
+    <!-- Isometric Pine Trees -->
+    <polygon points="-120,0 -100,10 -140,10" fill="#2E7D32"/>
+    <polygon points="-120,-30 -90,0 -150,0" fill="#388E3C"/>
+    <polygon points="-120,-60 -100,-30 -140,-30" fill="#4CAF50"/>
+    
+    <polygon points="120,40 140,50 100,50" fill="#2E7D32"/>
+    <polygon points="120,10 150,40 90,40" fill="#388E3C"/>
+    <polygon points="120,-20 140,10 100,10" fill="#4CAF50"/>
+  </g>
+  
+  <rect x="40" y="40" width="160" height="34" rx="17" fill="#7CB342"/>
+  <text x="120" y="62" font-family="'Inter', sans-serif" font-size="13" font-weight="900" fill="#11111E" text-anchor="middle" letter-spacing="1">PROJECT 07</text>
+  <text x="760" y="460" font-family="'Inter', sans-serif" font-size="16" font-weight="700" fill="#FFFFFF" text-anchor="end">ISOMETRIC ISLE</text>
+</svg>

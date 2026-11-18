@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="sky3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#080718"/>
+      <stop offset="60%" stop-color="#1E113E"/>
+      <stop offset="100%" stop-color="#3B124D"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#sky3)"/>
+  
+  <!-- Glowing Moon -->
+  <circle cx="680" cy="110" r="45" fill="#FFEAA7"/>
+  <circle cx="680" cy="110" r="55" fill="none" stroke="#FFEAA7" stroke-width="2" stroke-opacity="0.3"/>
+  
+  <!-- City Skyline Silhouettes -->
+  <rect x="80" y="240" width="80" height="260" fill="#141029"/>
+  <rect x="180" y="180" width="100" height="320" fill="#1B1538"/>
+  <rect x="300" y="140" width="110" height="360" fill="#241B4B"/>
+  <rect x="430" y="200" width="90" height="300" fill="#1C163C"/>
+  <rect x="540" y="160" width="110" height="340" fill="#261E50"/>
+  
+  <!-- Neon Accent Lines -->
+  <line x1="180" y1="180" x2="180" y2="500" stroke="#00F5D4" stroke-width="3"/>
+  <line x1="355" y1="140" x2="355" y2="500" stroke="#FF007F" stroke-width="3"/>
+  <line x1="650" y1="160" x2="650" y2="500" stroke="#7B2CBF" stroke-width="3"/>
+  
+  <!-- Glowing Windows Pattern -->
+  <g fill="#FFEAA7" fill-opacity="0.6">
+    <rect x="320" y="170" width="8" height="12"/>
+    <rect x="340" y="170" width="8" height="12"/>
+    <rect x="320" y="210" width="8" height="12"/>
+    <rect x="340" y="210" width="8" height="12"/>
+    <rect x="320" y="250" width="8" height="12"/>
+    <rect x="340" y="250" width="8" height="12"/>
+    <rect x="205" y="220" width="8" height="12"/>
+    <rect x="225" y="220" width="8" height="12"/>
+    <rect x="205" y="260" width="8" height="12"/>
+  </g>
+  
+  <rect x="40" y="40" width="160" height="34" rx="17" fill="#FF007F"/>
+  <text x="120" y="62" font-family="'Inter', sans-serif" font-size="13" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">PROJECT 03</text>
+  <text x="760" y="460" font-family="'Inter', sans-serif" font-size="16" font-weight="700" fill="#00F5D4" text-anchor="end">NEON OASIS</text>
+</svg>

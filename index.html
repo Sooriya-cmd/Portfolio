@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Sky Street — Portfolio</title>
+    <meta name="description" content="An interactive, scroll-driven 3D portfolio and creative playground." />
+    <meta name="theme-color" content="#4B55D8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content="Sky Street — 3D Portfolio" />
+    <meta property="og:description" content="An interactive, scroll-driven 3D portfolio and creative playground." />
+    <meta property="og:image" content="/og-image.svg" />
+    <meta property="og:type" content="website" />
+    
+    <!-- Google Fonts with local fallbacks -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="/src/styles/main.css" />
+    <link rel="stylesheet" href="/src/styles/ui.css" />
+  </head>
+  <body class="is-2d-mode">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <div id="app">
+      <!-- 3D Canvas Container (initialized in M2) -->
+      <div id="canvas-container" aria-hidden="true"></div>
+      
+      <!-- Top Persistent Bar -->
+      <header class="persistent-top-bar" role="banner">
+        <button id="menu-toggle" class="btn-icon" aria-label="Open chapter menu" aria-expanded="false" aria-controls="chapter-menu">
+          <span class="icon-hamburger" aria-hidden="true"></span>
+        </button>
+        
+        <div class="site-branding" id="site-branding">
+          <span class="brand-name">SKY STREET</span>
+        </div>
+        
+        <button id="sound-toggle" class="btn-icon" aria-label="Turn sound on" aria-pressed="false" title="Sound disabled (no audio track loaded)">
+          <span class="icon-sound" aria-hidden="true"></span>
+        </button>
+      </header>
+
+      <!-- Minimal Progress Indicator -->
+      <div id="progress-container" class="progress-bar-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Journey progress">
+        <div id="progress-fill" class="progress-bar-fill"></div>
+      </div>
+
+      <!-- Chapter Menu Drawer -->
+      <nav id="chapter-menu" class="chapter-menu" aria-label="Chapters" hidden>
+        <div class="chapter-menu-backdrop" id="menu-backdrop"></div>
+        <div class="chapter-menu-content">
+          <div class="chapter-menu-header">
+            <h2 class="chapter-menu-title">CHAPTERS</h2>
+            <button id="menu-close" class="btn-icon-close" aria-label="Close chapter menu">✕</button>
+          </div>
+          <ul class="chapter-list" id="chapter-list">
+            <!-- Populated dynamically from content.json -->
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Bird Guide Mascot Speech Bubble -->
+      <aside id="guide-container" class="guide-container" aria-live="polite">
+        <div class="guide-mascot-head" aria-hidden="true">
+          <div class="mascot-eye left"></div>
+          <div class="mascot-eye right"></div>
+          <div class="mascot-beak"></div>
+          <div class="mascot-blush left"></div>
+          <div class="mascot-blush right"></div>
+        </div>
+        <div class="guide-bubble" id="guide-bubble">
+          <div class="guide-badge" id="guide-badge">GUIDE</div>
+          <p class="guide-message" id="guide-message">Loading guide message...</p>
+          <div class="guide-footer">
+            <div class="guide-dots" id="guide-dots" aria-hidden="true">
+              <span class="dot active"></span>
+              <span class="dot"></span>
+            </div>
+            <button id="guide-next-btn" class="guide-next-btn">
+              <span class="guide-btn-text">NEXT</span>
+              <span class="guide-btn-arrow" aria-hidden="true">▶</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Semantic Content -->
+      <main id="main-content" class="portfolio-container" tabindex="-1">
+        <!-- Rendered from content.json via main.js -->
+        <div id="content-mount"></div>
+      </main>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

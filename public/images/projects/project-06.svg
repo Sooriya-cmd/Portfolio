@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <rect width="800" height="500" fill="#0A0B10"/>
+  
+  <!-- Network Node Graph -->
+  <g stroke="#38EF7D" stroke-width="1.5" stroke-opacity="0.4">
+    <line x1="200" y1="200" x2="320" y2="140"/>
+    <line x1="320" y1="140" x2="480" y2="180"/>
+    <line x1="480" y1="180" x2="580" y2="280"/>
+    <line x1="580" y1="280" x2="440" y2="340"/>
+    <line x1="440" y1="340" x2="280" y2="320"/>
+    <line x1="280" y1="320" x2="200" y2="200"/>
+    <line x1="320" y1="140" x2="440" y2="340"/>
+    <line x1="200" y1="200" x2="480" y2="180"/>
+    <line x1="280" y1="320" x2="480" y2="180"/>
+  </g>
+  
+  <!-- Glowing Nodes -->
+  <g fill="#11998E">
+    <circle cx="200" cy="200" r="10" stroke="#38EF7D" stroke-width="3"/>
+    <circle cx="320" cy="140" r="8" stroke="#38EF7D" stroke-width="3"/>
+    <circle cx="480" cy="180" r="14" stroke="#38EF7D" stroke-width="4"/>
+    <circle cx="580" cy="280" r="9" stroke="#38EF7D" stroke-width="3"/>
+    <circle cx="440" cy="340" r="12" stroke="#38EF7D" stroke-width="3"/>
+    <circle cx="280" cy="320" r="8" stroke="#38EF7D" stroke-width="3"/>
+  </g>
+  
+  <rect x="40" y="40" width="160" height="34" rx="17" fill="#11998E"/>
+  <text x="120" y="62" font-family="'Inter', sans-serif" font-size="13" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">PROJECT 06</text>
+  <text x="760" y="460" font-family="'Inter', sans-serif" font-size="16" font-weight="700" fill="#38EF7D" text-anchor="end">MINIMAL CANVAS</text>
+</svg>

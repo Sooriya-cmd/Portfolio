@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A0B2E"/>
+      <stop offset="100%" stop-color="#3D1252"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg2)"/>
+  
+  <!-- Perspective Grid -->
+  <g stroke="#FF4D8D" stroke-width="1" stroke-opacity="0.3">
+    <line x1="100" y1="450" x2="350" y2="280"/>
+    <line x1="250" y1="450" x2="380" y2="280"/>
+    <line x1="400" y1="450" x2="400" y2="280"/>
+    <line x1="550" y1="450" x2="420" y2="280"/>
+    <line x1="700" y1="450" x2="450" y2="280"/>
+    <line x1="150" y1="410" x2="650" y2="410"/>
+    <line x1="220" y1="360" x2="580" y2="360"/>
+    <line x1="290" y1="320" x2="510" y2="320"/>
+  </g>
+  
+  <!-- Kinetic Lettering Layers -->
+  <text x="400" y="220" font-family="'Inter', sans-serif" font-size="110" font-weight="900" fill="none" stroke="#FF4D8D" stroke-width="3" text-anchor="middle" transform="skewX(-12)">KINETIC</text>
+  <text x="400" y="215" font-family="'Inter', sans-serif" font-size="110" font-weight="900" fill="none" stroke="#4EFFF8" stroke-width="3" text-anchor="middle" transform="skewX(-12)">KINETIC</text>
+  <text x="400" y="210" font-family="'Inter', sans-serif" font-size="110" font-weight="900" fill="#FFFFFF" text-anchor="middle" transform="skewX(-12)">KINETIC</text>
+  
+  <text x="400" y="295" font-family="'Inter', sans-serif" font-size="44" font-weight="800" fill="#FFCC00" letter-spacing="14" text-anchor="middle">TYPOGRAPHY</text>
+
+  <!-- Tag -->
+  <rect x="40" y="40" width="160" height="34" rx="17" fill="#4EFFF8"/>
+  <text x="120" y="62" font-family="'Inter', sans-serif" font-size="13" font-weight="900" fill="#11111E" text-anchor="middle" letter-spacing="1">PROJECT 02</text>
+</svg>

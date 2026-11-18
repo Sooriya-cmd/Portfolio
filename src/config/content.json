@@ -1,0 +1,237 @@
+{
+  "site": {
+    "title": "Sky Street — REPLACE_WITH_YOUR_NAME",
+    "description": "An interactive, scroll-driven 3D portfolio and creative playground.",
+    "url": "",
+    "ogImage": "/og-image.svg",
+    "themeColor": "#4B55D8",
+    "language": "en"
+  },
+  "person": {
+    "name": "REPLACE_WITH_YOUR_NAME",
+    "handle": "@YOUR_HANDLE",
+    "role": "YOUR_ROLE",
+    "tagline": "YOUR_SHORT_TAGLINE",
+    "location": "YOUR_LOCATION",
+    "email": "",
+    "resume": "",
+    "avatar": ""
+  },
+  "entry": {
+    "eyebrow": "A LITTLE WORLD OF WORK AND IDEAS",
+    "heading": "MIXING THE INK",
+    "description": "Welcome to Sky Street — an interactive journey through projects, ideas, and creative engineering.",
+    "enter3DLabel": "START",
+    "enterWithoutSoundLabel": "ENTER WITHOUT SOUND",
+    "enterWithout3DLabel": "ENTER WITHOUT 3D",
+    "soundLabel": "SOUND"
+  },
+  "hero": {
+    "eyebrow": "HELLO, I'M",
+    "headline": "REPLACE_WITH_YOUR_NAME",
+    "subline": "YOUR_ROLE · YOUR_TAGLINE",
+    "scrollHint": "SCROLL TO EXPLORE"
+  },
+  "about": {
+    "heading": "ABOUT ME",
+    "paragraphs": [
+      "Hello! I am a creative developer who builds expressive, responsive, and performance-minded digital experiences.",
+      "I explore the intersection of 3D computer graphics, interface design, and front-end engineering to bring imaginative ideas to life."
+    ],
+    "facts": [
+      { "label": "BASED IN", "value": "YOUR_LOCATION" },
+      { "label": "FOCUS", "value": "CREATIVE COMPUTING & 3D WEB" },
+      { "label": "STATUS", "value": "OPEN FOR COLLABORATION" }
+    ]
+  },
+  "skills": {
+    "heading": "THINGS I WORK WITH",
+    "items": [
+      { "name": "THREE.JS & WEBGL", "category": "Graphics" },
+      { "name": "JAVASCRIPT / TYPESCRIPT", "category": "Language" },
+      { "name": "GLSL / SHADERS", "category": "Graphics" },
+      { "name": "BLENDER 3D", "category": "Modeling" },
+      { "name": "GSAP & LENIS", "category": "Motion" },
+      { "name": "HTML5 / CSS3", "category": "Frontend" },
+      { "name": "ACCESSIBLE UI/UX", "category": "Design" },
+      { "name": "VITE & TOOLING", "category": "Workflow" }
+    ]
+  },
+  "experience": {
+    "heading": "WHERE I'VE BEEN",
+    "items": [
+      {
+        "role": "YOUR_ROLE_01",
+        "organization": "YOUR_ORGANIZATION_01",
+        "period": "2024 — PRESENT",
+        "summary": "Building modern interactive web experiences, real-time shaders, and scalable frontend architectures.",
+        "highlights": [
+          "Developed high-performance 3D web applications with seamless mobile responsiveness.",
+          "Collaborated closely with design and engineering teams to ship award-worthy digital products."
+        ]
+      },
+      {
+        "role": "YOUR_ROLE_02",
+        "organization": "YOUR_ORGANIZATION_02",
+        "period": "2022 — 2024",
+        "summary": "Crafted design systems, micro-interactions, and accessible web interfaces.",
+        "highlights": [
+          "Optimized runtime WebGL frame rates and bundle sizes across lower-power mobile devices.",
+          "Implemented comprehensive keyboard navigation and WCAG accessibility patterns."
+        ]
+      },
+      {
+        "role": "YOUR_ROLE_03",
+        "organization": "YOUR_ORGANIZATION_03",
+        "period": "2020 — 2022",
+        "summary": "Creative frontend development and digital prototyping.",
+        "highlights": [
+          "Created interactive 2D/3D landing pages and custom motion graphics.",
+          "Established automated testing and modern deployment workflows."
+        ]
+      }
+    ]
+  },
+  "projects": [
+    {
+      "id": "project-01",
+      "title": "WAVE SHADERS",
+      "tagline": "Real-time procedural surface displacement & lighting",
+      "description": "An interactive study into custom vertex shaders, mathematical wave interference, and toon material reflections in Three.js.",
+      "tags": ["Three.js", "GLSL", "Shaders"],
+      "year": "2026",
+      "image": "/images/projects/project-01.svg",
+      "imageAlt": "Visual preview of Wave Shaders project featuring colorful procedural spheres",
+      "links": { "live": "", "repo": "" }
+    },
+    {
+      "id": "project-02",
+      "title": "KINETIC TYPOGRAPHY",
+      "tagline": "Dynamic 3D lettering & reactive geometry",
+      "description": "An experimental type playground exploring vector field distortions, mouse-reactive typography, and physics-driven letterform scattering.",
+      "tags": ["WebGL", "Canvas", "Motion"],
+      "year": "2025",
+      "image": "/images/projects/project-02.svg",
+      "imageAlt": "Visual preview of Kinetic Typography project showing warped stylized letterforms",
+      "links": { "live": "", "repo": "" }
+    },
+    {
+      "id": "project-03",
+      "title": "NEON OASIS",
+      "tagline": "Low-poly cyberpunk architectural visualizer",
+      "description": "A scroll-choreographed 3D walk through futuristic structures featuring real-time bloom lighting and audio-responsive volumetric fog.",
+      "tags": ["Three.js", "Blender", "Audio Reactive"],
+      "year": "2025",
+      "image": "/images/projects/project-03.svg",
+      "imageAlt": "Visual preview of Neon Oasis project with stylized glowing skyscrapers",
+      "links": { "live": "", "repo": "" }
+    },
+    {
+      "id": "project-04",
+      "title": "ORBITAL SOUNDSCAPE",
+      "tagline": "Spatial generative sound sequencer",
+      "description": "A Web Audio and WebGL synthesizer where planetary orbits trigger polyphonic harmonies and synchronized particle pulses.",
+      "tags": ["Web Audio", "Generative", "Interactive"],
+      "year": "2024",
+      "image": "/images/projects/project-04.svg",
+      "imageAlt": "Visual preview of Orbital Soundscape with intersecting planetary rings",
+      "links": { "live": "", "repo": "" }
+    },
+    {
+      "id": "project-05",
+      "title": "CHROMA ENGINE",
+      "tagline": "Color palette harmony & contrast inspector",
+      "description": "A developer tool designed to generate accessible, WCAG-compliant color schemes and preview them live across simulated UI components.",
+      "tags": ["Tooling", "Accessibility", "Design"],
+      "year": "2024",
+      "image": "/images/projects/project-05.svg",
+      "imageAlt": "Visual preview of Chroma Engine color swatch interface",
+      "links": { "live": "", "repo": "" }
+    },
+    {
+      "id": "project-06",
+      "title": "MINIMAL CANVAS",
+      "tagline": "Micro-library for lightweight canvas animations",
+      "description": "An ultra-lean 2KB JavaScript utility for creating particle systems, trails, and fluid grid effects without heavy external dependencies.",
+      "tags": ["Open Source", "JavaScript", "Library"],
+      "year": "2023",
+      "image": "/images/projects/project-06.svg",
+      "imageAlt": "Visual preview of Minimal Canvas particle geometry",
+      "links": { "live": "", "repo": "" }
+    },
+    {
+      "id": "project-07",
+      "title": "ISOMETRIC ISLE",
+      "tagline": "Interactive miniature diorama with seasonal weather",
+      "description": "A charming low-poly island world with toggleable day-to-night lighting, falling snow, rain particles, and cozy ambient soundscapes.",
+      "tags": ["Three.js", "Blender", "Environment"],
+      "year": "2023",
+      "image": "/images/projects/project-07.svg",
+      "imageAlt": "Visual preview of Isometric Isle diorama with cozy cabins and pine trees",
+      "links": { "live": "", "repo": "" }
+    },
+    {
+      "id": "project-08",
+      "title": "HYPERDRIVE UI",
+      "tagline": "Sci-fi heads-up display & telemetry dashboard",
+      "description": "A responsive HUD concept featuring custom SVG gauges, animated radar sweeps, coordinate readouts, and fluid state transitions.",
+      "tags": ["SVG", "CSS Motion", "UI Design"],
+      "year": "2023",
+      "image": "/images/projects/project-08.svg",
+      "imageAlt": "Visual preview of Hyperdrive UI showing sci-fi telemetry gauges",
+      "links": { "live": "", "repo": "" }
+    }
+  ],
+  "moreProjects": {
+    "heading": "MORE PROJECTS COMING SOON",
+    "text": "New experiments, shaders, and open-source explorations are in active development.",
+    "label": "STAY TUNED"
+  },
+  "contact": {
+    "heading": "SAY HELLO",
+    "text": "Have a project in mind, want to collaborate, or just want to say hi? Feel free to reach out anytime.",
+    "email": "",
+    "cta": "GET IN TOUCH"
+  },
+  "socials": [
+    { "label": "GitHub", "url": "" },
+    { "label": "LinkedIn", "url": "" },
+    { "label": "X / Twitter", "url": "" },
+    { "label": "CodePen", "url": "" }
+  ],
+  "ending": {
+    "heading": "THE END",
+    "text": "That's the end of the street! Thanks for stopping by.",
+    "footer": "Built with care · Sky Street 3D Portfolio."
+  },
+  "guide": {
+    "nextLabel": "NEXT",
+    "skipLabel": "SKIP",
+    "messages": {
+      "hero": "Hi, I'm your bird guide! Welcome to Sky Street.",
+      "about": "Welcome to About Street! Here is a little about who I am and what I do.",
+      "skills": "Here are the tools, technologies, and craft I work with every day.",
+      "experience": "A timeline of teams I've contributed to and work I've delivered.",
+      "projects": "Explore eight selected projects spanning shaders, 3D, and interactive web.",
+      "moreProjects": "More projects and creative experiments are currently on the way!",
+      "contact": "Feel free to drop a line via email or connect on social platforms.",
+      "ending": "That's the end of the street! Thanks for exploring this little world."
+    }
+  },
+  "sections": {
+    "hero": "START",
+    "about": "ABOUT",
+    "skills": "SKILLS",
+    "experience": "EXPERIENCE",
+    "projects": "PROJECTS",
+    "moreProjects": "MORE",
+    "contact": "CONTACT",
+    "ending": "THE END"
+  },
+  "audio": {
+    "enabled": false,
+    "ambientTrack": "",
+    "soundOnLabel": "TURN SOUND OFF",
+    "soundOffLabel": "TURN SOUND ON"
+  }
+}

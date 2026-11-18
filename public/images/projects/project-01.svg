@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#121326"/>
+      <stop offset="100%" stop-color="#241B42"/>
+    </linearGradient>
+    <radialGradient id="sphere1" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#4EFFF8"/>
+      <stop offset="60%" stop-color="#00A2A7"/>
+      <stop offset="100%" stop-color="#05454F"/>
+    </radialGradient>
+    <radialGradient id="sphere2" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="25%" stop-color="#6F7499"/>
+      <stop offset="70%" stop-color="#28293D"/>
+      <stop offset="100%" stop-color="#11111E"/>
+    </radialGradient>
+    <radialGradient id="sphere3" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#FFAD66"/>
+      <stop offset="50%" stop-color="#F25822"/>
+      <stop offset="100%" stop-color="#7B1A00"/>
+    </radialGradient>
+    <pattern id="halftone" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+      <circle cx="8" cy="8" r="2.2" fill="#ffffff" fill-opacity="0.08"/>
+    </pattern>
+  </defs>
+  
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <rect width="800" height="500" fill="url(#halftone)"/>
+  
+  <!-- Wave interference lines in background -->
+  <path d="M 0,250 Q 200,180 400,250 T 800,250" fill="none" stroke="#4EFFF8" stroke-width="2" stroke-opacity="0.3" stroke-dasharray="6,6"/>
+  <path d="M 0,270 Q 200,340 400,270 T 800,270" fill="none" stroke="#FF5DA2" stroke-width="2" stroke-opacity="0.3"/>
+  
+  <!-- Three Shaded Spheres matching reference vibe -->
+  <g transform="translate(180, 250)">
+    <ellipse cx="0" cy="85" rx="75" ry="16" fill="#000000" fill-opacity="0.45"/>
+    <circle cx="0" cy="0" r="80" fill="url(#sphere1)"/>
+    <circle cx="-25" cy="-25" r="70" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-opacity="0.25"/>
+  </g>
+  
+  <g transform="translate(400, 250)">
+    <ellipse cx="0" cy="85" rx="80" ry="18" fill="#000000" fill-opacity="0.5"/>
+    <circle cx="0" cy="0" r="85" fill="url(#sphere2)"/>
+    <circle cx="-30" cy="-30" r="75" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-opacity="0.4"/>
+  </g>
+  
+  <g transform="translate(620, 250)">
+    <ellipse cx="0" cy="85" rx="75" ry="16" fill="#000000" fill-opacity="0.45"/>
+    <circle cx="0" cy="0" r="80" fill="url(#sphere3)"/>
+    <circle cx="-25" cy="-25" r="70" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-opacity="0.3"/>
+  </g>
+  
+  <!-- Project Label Badge -->
+  <rect x="40" y="40" width="160" height="34" rx="17" fill="#FFCC00"/>
+  <text x="120" y="62" font-family="'Inter', sans-serif" font-size="13" font-weight="900" fill="#11111E" text-anchor="middle" letter-spacing="1">PROJECT 01</text>
+  <text x="760" y="460" font-family="'Inter', sans-serif" font-size="16" font-weight="700" fill="#FFFFFF" fill-opacity="0.4" text-anchor="end">WAVE SHADERS</text>
+</svg>

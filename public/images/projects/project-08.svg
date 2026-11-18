@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <rect width="800" height="500" fill="#070A14"/>
+  
+  <!-- Circular HUD dials -->
+  <g transform="translate(400, 250)">
+    <!-- Outer Reticle -->
+    <circle cx="0" cy="0" r="170" fill="none" stroke="#00F0FF" stroke-width="2" stroke-opacity="0.3"/>
+    <circle cx="0" cy="0" r="160" fill="none" stroke="#00F0FF" stroke-width="1.5" stroke-dasharray="8,6" stroke-opacity="0.5"/>
+    <circle cx="0" cy="0" r="130" fill="none" stroke="#FF0055" stroke-width="2" stroke-dasharray="140,40" stroke-opacity="0.7"/>
+    <circle cx="0" cy="0" r="90" fill="none" stroke="#00F0FF" stroke-width="3" stroke-dasharray="20,10"/>
+    <circle cx="0" cy="0" r="40" fill="#00F0FF" fill-opacity="0.15"/>
+    <circle cx="0" cy="0" r="12" fill="#00F0FF"/>
+    
+    <!-- Crosshairs -->
+    <line x1="-190" y1="0" x2="-140" y2="0" stroke="#00F0FF" stroke-width="2"/>
+    <line x1="140" y1="0" x2="190" y2="0" stroke="#00F0FF" stroke-width="2"/>
+    <line x1="0" y1="-190" x2="0" y2="-140" stroke="#00F0FF" stroke-width="2"/>
+    <line x1="0" y1="140" x2="0" y2="190" stroke="#00F0FF" stroke-width="2"/>
+    
+    <!-- Telemetry Readouts -->
+    <text x="140" y="-120" font-family="'Courier New', monospace" font-size="12" font-weight="700" fill="#00F0FF">PWR: 98.4%</text>
+    <text x="140" y="-100" font-family="'Courier New', monospace" font-size="12" font-weight="700" fill="#FF0055">WARP: READY</text>
+    <text x="-210" y="140" font-family="'Courier New', monospace" font-size="12" font-weight="700" fill="#00F0FF">COORD: 47.92.11</text>
+  </g>
+  
+  <rect x="40" y="40" width="160" height="34" rx="17" fill="#00F0FF"/>
+  <text x="120" y="62" font-family="'Inter', sans-serif" font-size="13" font-weight="900" fill="#070A14" text-anchor="middle" letter-spacing="1">PROJECT 08</text>
+  <text x="760" y="460" font-family="'Inter', sans-serif" font-size="16" font-weight="700" fill="#00F0FF" text-anchor="end">HYPERDRIVE UI</text>
+</svg>

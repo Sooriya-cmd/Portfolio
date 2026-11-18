@@ -1,0 +1,672 @@
+/* ==========================================================================
+   UI.CSS — UI Components, Navigation, Panels, and Overlays
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Top Bar & Controls
+   -------------------------------------------------------------------------- */
+.persistent-top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: env(safe-area-inset-top, 16px) 24px 16px 24px;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.persistent-top-bar > * {
+  pointer-events: auto;
+}
+
+.site-branding {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: var(--color-text-inverse);
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.4);
+}
+
+.btn-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #3158DF;
+  border: var(--border-medium);
+  box-shadow: -2px -2px 0px var(--color-cyan-layer), 3px 3px 0px var(--color-pink-layer);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-text-inverse);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.btn-icon:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: -3px -3px 0px var(--color-cyan-layer), 4px 4px 0px var(--color-pink-layer);
+}
+
+.btn-icon:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-button-press);
+}
+
+/* Hamburger Icon */
+.icon-hamburger {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #FFFFFF;
+  position: relative;
+  border-radius: 2px;
+}
+.icon-hamburger::before,
+.icon-hamburger::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 2px;
+  background: #FFFFFF;
+  border-radius: 2px;
+  left: 0;
+}
+.icon-hamburger::before { top: -6px; }
+.icon-hamburger::after { top: 6px; }
+
+/* Sound Icon */
+.icon-sound {
+  display: block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #FFFFFF;
+  border-left: none;
+  border-radius: 0 10px 10px 0;
+  position: relative;
+}
+.icon-sound::before {
+  content: '♫';
+  position: absolute;
+  font-size: 14px;
+  top: -8px;
+  left: -2px;
+  color: #FFFFFF;
+}
+
+/* --------------------------------------------------------------------------
+   Progress Bar
+   -------------------------------------------------------------------------- */
+.progress-bar-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 101;
+}
+
+.progress-bar-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-cyan-layer), var(--color-pink-layer));
+  transition: width 100ms linear;
+}
+
+/* --------------------------------------------------------------------------
+   Chapter Menu Drawer
+   -------------------------------------------------------------------------- */
+.chapter-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 200;
+  display: flex;
+}
+
+.chapter-menu[hidden] {
+  display: none;
+}
+
+.chapter-menu-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(18, 12, 45, 0.65);
+  backdrop-filter: blur(4px);
+}
+
+.chapter-menu-content {
+  position: relative;
+  width: 340px;
+  max-width: 85vw;
+  height: 100%;
+  background: var(--color-panel-bg);
+  border-right: var(--border-thick);
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  box-shadow: 12px 0px 0px var(--color-pink-layer);
+  overflow-y: auto;
+}
+
+.chapter-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  border-bottom: var(--border-medium);
+  padding-bottom: 16px;
+}
+
+.chapter-menu-title {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.btn-icon-close {
+  background: none;
+  border: var(--border-medium);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.chapter-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chapter-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #FFFFFF;
+  border: var(--border-medium);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: var(--color-text-primary);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  box-shadow: 2px 2px 0px var(--color-panel-border);
+  transition: transform var(--transition-fast), background var(--transition-fast);
+}
+
+.chapter-link:hover {
+  background: var(--color-yellow-badge);
+  transform: translateX(4px);
+}
+
+/* --------------------------------------------------------------------------
+   Bird Guide Mascot Speech Bubble (Bottom-Left)
+   -------------------------------------------------------------------------- */
+.guide-container {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 90;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  pointer-events: none;
+  max-width: 380px;
+}
+
+.guide-container > * {
+  pointer-events: auto;
+}
+
+.guide-mascot-head {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: var(--border-medium);
+  box-shadow: -2px -2px 0px var(--color-cyan-layer), 3px 3px 0px var(--color-pink-layer);
+  position: relative;
+  flex-shrink: 0;
+  animation: bird-bob 2.8s ease-in-out infinite;
+}
+
+@keyframes bird-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.mascot-eye {
+  position: absolute;
+  top: 18px;
+  width: 4px;
+  height: 9px;
+  background: #11111E;
+  border-radius: 2px;
+}
+.mascot-eye.left { left: 18px; }
+.mascot-eye.right { right: 18px; }
+
+.mascot-beak {
+  position: absolute;
+  top: 24px;
+  left: 23px;
+  width: 6px;
+  height: 6px;
+  background: #FFA500;
+  transform: rotate(45deg);
+  border-radius: 1px;
+}
+
+.mascot-blush {
+  position: absolute;
+  top: 26px;
+  width: 8px;
+  height: 4px;
+  background: #FF85A1;
+  border-radius: 50%;
+}
+.mascot-blush.left { left: 10px; }
+.mascot-blush.right { right: 10px; }
+
+.guide-bubble {
+  background: #FFFFFF;
+  border: var(--border-medium);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  box-shadow: -3px -3px 0px var(--color-cyan-layer), 4px 4px 0px var(--color-pink-layer), 4px 4px 0px 2px var(--color-panel-border);
+  position: relative;
+  min-width: 240px;
+}
+
+.guide-badge {
+  position: absolute;
+  top: -12px;
+  left: 14px;
+  background: #11111E;
+  color: #FFFFFF;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.guide-message {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--color-text-primary);
+  margin-bottom: 12px;
+}
+
+.guide-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.guide-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.guide-dots .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #D1D5DB;
+  border: 1px solid var(--color-panel-border);
+}
+
+.guide-dots .dot.active {
+  background: var(--color-panel-border);
+}
+
+.guide-next-btn {
+  background: #11111E;
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: transform var(--transition-fast), background var(--transition-fast);
+}
+
+.guide-next-btn:hover {
+  background: #3158DF;
+  transform: scale(1.05);
+}
+
+/* --------------------------------------------------------------------------
+   Portfolio Content Sections & Framed Panels
+   -------------------------------------------------------------------------- */
+.portfolio-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 100px 24px 160px 24px;
+}
+
+.portfolio-section {
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  margin-bottom: 120px;
+  position: relative;
+}
+
+/* Left / Center-Left Framed Panel Architecture */
+.framed-panel {
+  background: var(--color-panel-bg);
+  border: var(--border-thick);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-layered);
+  padding: 36px;
+  max-width: 680px;
+  width: 100%;
+  position: relative;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  gap: 16px;
+}
+
+.index-badge {
+  background: var(--color-yellow-badge);
+  border: var(--border-medium);
+  border-radius: var(--radius-sm);
+  padding: 4px 12px;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.section-eyebrow {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #585A75;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.panel-title {
+  font-family: var(--font-display);
+  font-size: 3.2rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.5px;
+  color: var(--color-text-primary);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.panel-subtitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #3158DF;
+  margin-bottom: 16px;
+}
+
+.panel-body {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  margin-bottom: 24px;
+}
+
+.panel-body p + p {
+  margin-top: 12px;
+}
+
+/* Project Image Frame */
+.project-media-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-md);
+  border: var(--border-medium);
+  overflow: hidden;
+  margin-bottom: 20px;
+  background: #11111E;
+}
+
+.project-media-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Tag Pills */
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.tag-pill {
+  background: #EEF2FF;
+  border: var(--border-thin);
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #3158DF;
+}
+
+/* Button Groups */
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #3158DF;
+  color: #FFFFFF;
+  border: var(--border-medium);
+  border-radius: var(--radius-pill);
+  padding: 10px 22px;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  box-shadow: -2px -2px 0px var(--color-cyan-layer), 3px 3px 0px var(--color-pink-layer);
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.btn-primary:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: -3px -3px 0px var(--color-cyan-layer), 4px 4px 0px var(--color-pink-layer);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #FFFFFF;
+  color: var(--color-text-primary);
+  border: var(--border-medium);
+  border-radius: var(--radius-pill);
+  padding: 10px 20px;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  box-shadow: 2px 2px 0px var(--color-panel-border);
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.btn-secondary:hover {
+  background: var(--color-yellow-badge);
+  transform: translateY(-2px);
+}
+
+/* Skills Grid */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.skill-card {
+  background: #FFFFFF;
+  border: var(--border-medium);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  box-shadow: 3px 3px 0px var(--color-panel-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.skill-name {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.skill-category {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #3158DF;
+  background: #EEF2FF;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* Experience Cards */
+.experience-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.experience-card {
+  background: #FFFFFF;
+  border: var(--border-medium);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  box-shadow: 3px 3px 0px var(--color-panel-border);
+}
+
+.exp-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.exp-role {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 900;
+}
+
+.exp-period {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+  color: #FF4F92;
+}
+
+.exp-org {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #3158DF;
+  margin-bottom: 10px;
+}
+
+.exp-highlights {
+  margin-top: 10px;
+  padding-left: 20px;
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Media Queries
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .portfolio-container {
+    padding: 80px 16px 140px 16px;
+  }
+  
+  .framed-panel {
+    padding: 24px;
+  }
+  
+  .panel-title {
+    font-size: 2.4rem;
+  }
+  
+  .guide-container {
+    left: 16px;
+    bottom: 16px;
+    max-width: calc(100vw - 32px);
+  }
+}
+
+@media (max-width: 600px) {
+  .site-branding {
+    font-size: 1.1rem;
+  }
+  
+  .btn-icon {
+    width: 42px;
+    height: 42px;
+  }
+  
+  .panel-title {
+    font-size: 2rem;
+  }
+  
+  .guide-bubble {
+    padding: 12px 14px;
+  }
+}
