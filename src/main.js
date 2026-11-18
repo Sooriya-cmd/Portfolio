@@ -1,10 +1,14 @@
 /**
  * main.js — Application Entry Point
- * Renders semantic portfolio from content.json with accessible UI and navigation.
+ * Renders semantic portfolio from content.json, initializes Three.js 3D world,
+ * and synchronizes Lenis + GSAP ScrollTrigger.
  */
 
 import content from './config/content.json';
 import { CHAPTER_RANGES } from './config/path.js';
+import { initLenis, getLenis } from './scroll/lenis.js';
+import { createScene } from './scene/createScene.js';
+import { initScrollTimeline } from './scroll/timeline.js';
 
 // DOM Mount Targets
 const contentMount = document.getElementById('content-mount');
@@ -17,6 +21,7 @@ const soundToggle = document.getElementById('sound-toggle');
 const progressFill = document.getElementById('progress-fill');
 const guideMessage = document.getElementById('guide-message');
 const guideNextBtn = document.getElementById('guide-next-btn');
+const canvasContainer = document.getElementById('canvas-container');
 
 /**
  * Initialize Metadata
@@ -49,7 +54,7 @@ function renderPortfolio() {
           <p>${escapeHtml(content.entry.description)}</p>
         </div>
         <div class="btn-group">
-          <a href="#section-about" class="btn-primary">
+          <a href="#section-about" class="btn-primary" data-scroll-to="#section-about">
             <span>${escapeHtml(content.hero.scrollHint || 'EXPLORE STREET')}</span>
             <span aria-hidden="true">↓</span>
           </a>
@@ -79,7 +84,7 @@ function renderPortfolio() {
           </div>
         ` : ''}
         <div class="btn-group">
-          <a href="#section-skills" class="btn-primary">SEE SKILLS →</a>
+          <a href="#section-skills" class="btn-primary" data-scroll-to="#section-skills">SEE SKILLS →</a>
         </div>
       </div>
     </section>
@@ -101,7 +106,7 @@ function renderPortfolio() {
           `).join('')}
         </div>
         <div class="btn-group" style="margin-top: 24px;">
-          <a href="#section-experience" class="btn-primary">VIEW EXPERIENCE →</a>
+          <a href="#section-experience" class="btn-primary" data-scroll-to="#section-experience">VIEW EXPERIENCE →</a>
         </div>
       </div>
     </section>
@@ -132,7 +137,7 @@ function renderPortfolio() {
           `).join('')}
         </div>
         <div class="btn-group" style="margin-top: 24px;">
-          <a href="#section-projects" class="btn-primary">EXPLORE PROJECTS (08) →</a>
+          <a href="#section-projects" class="btn-primary" data-scroll-to="#section-projects">EXPLORE PROJECTS (08) →</a>
         </div>
       </div>
     </section>
@@ -178,9 +183,9 @@ function renderPortfolio() {
                   </a>
                 ` : ''}
                 ${idx < content.projects.length - 1 ? `
-                  <a href="#${content.projects[idx + 1].id}" class="btn-secondary">NEXT PROJECT →</a>
+                  <a href="#${content.projects[idx + 1].id}" class="btn-secondary" data-scroll-to="#${content.projects[idx + 1].id}">NEXT PROJECT →</a>
                 ` : `
-                  <a href="#section-more-projects" class="btn-secondary">STAY TUNED →</a>
+                  <a href="#section-more-projects" class="btn-secondary" data-scroll-to="#section-more-projects">STAY TUNED →</a>
                 `}
               </div>
             </article>
@@ -201,7 +206,7 @@ function renderPortfolio() {
           <p>${escapeHtml(content.moreProjects.text)}</p>
         </div>
         <div class="btn-group">
-          <a href="#section-contact" class="btn-primary">GET IN TOUCH →</a>
+          <a href="#section-contact" class="btn-primary" data-scroll-to="#section-contact">GET IN TOUCH →</a>
         </div>
       </div>
     </section>
@@ -233,7 +238,6 @@ function renderPortfolio() {
           ` : ''}
         </div>
 
-        <!-- Social Links (cleanly rendered only if url present) -->
         ${content.socials && content.socials.some(s => s.url) ? `
           <div class="tag-list">
             ${content.socials.filter(s => s.url).map(s => `
@@ -272,13 +276,35 @@ function renderPortfolio() {
 
   contentMount.innerHTML = sectionsHtml;
 
-  // Bind Back to top button
+  // Bind Back to top button via Lenis
   const backToTopBtn = document.getElementById('btn-back-to-top');
   if (backToTopBtn) {
     backToTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const lenis = getLenis();
+      if (lenis) {
+        lenis.scrollTo(0);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     });
   }
+
+  // Bind internal scroll-to links
+  document.querySelectorAll('[data-scroll-to]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute('data-scroll-to');
+      const targetEl = document.querySelector(targetId);
+      if (targetEl) {
+        const lenis = getLenis();
+        if (lenis) {
+          lenis.scrollTo(targetEl, { offset: -60 });
+        } else {
+          targetEl.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
+  });
 }
 
 /**
@@ -300,16 +326,28 @@ function initChapterMenu() {
 
   chapterList.innerHTML = chapters.map(ch => `
     <li>
-      <a href="#${ch.id}" class="chapter-link">
+      <a href="#${ch.id}" class="chapter-link" data-chapter-target="#${ch.id}">
         <span>${escapeHtml(ch.label)}</span>
         <span aria-hidden="true">→</span>
       </a>
     </li>
   `).join('');
 
-  // Close menu when clicking link
   chapterList.querySelectorAll('.chapter-link').forEach(link => {
-    link.addEventListener('click', () => closeMenu());
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute('data-chapter-target');
+      const targetEl = document.querySelector(targetId);
+      closeMenu();
+      if (targetEl) {
+        const lenis = getLenis();
+        if (lenis) {
+          lenis.scrollTo(targetEl, { offset: -60 });
+        } else {
+          targetEl.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
   });
 
   if (menuToggle) menuToggle.addEventListener('click', () => toggleMenu());
@@ -377,18 +415,24 @@ function initScrollTracking() {
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // Guide Next Button interaction
   if (guideNextBtn) {
     guideNextBtn.addEventListener('click', () => {
       const scrollY = window.scrollY;
       for (const id of sectionIds) {
         const sec = document.getElementById(id);
         if (sec && sec.offsetTop > scrollY + 120) {
-          sec.scrollIntoView({ behavior: 'smooth' });
+          const lenis = getLenis();
+          if (lenis) {
+            lenis.scrollTo(sec, { offset: -60 });
+          } else {
+            sec.scrollIntoView({ behavior: 'smooth' });
+          }
           return;
         }
       }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const lenis = getLenis();
+      if (lenis) lenis.scrollTo(0);
+      else window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 }
@@ -404,7 +448,7 @@ function initSoundControl() {
 }
 
 /**
- * Helper: Escape HTML to prevent injection
+ * Helper: Escape HTML
  */
 function escapeHtml(str) {
   if (typeof str !== 'string') return '';
@@ -416,10 +460,22 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
-// Kick off
+// 1. Kick off UI rendering
 initMetadata();
 renderPortfolio();
 initChapterMenu();
 initScrollTracking();
 initSoundControl();
-console.log('Sky Street Portfolio initialized in 2D mode (Milestone M1).');
+
+// 2. Initialize Lenis Smooth Scroller
+const lenis = initLenis();
+
+// 3. Initialize Three.js 3D World
+const sceneContext = createScene(canvasContainer);
+
+// 4. Synchronize ScrollTrigger with Camera Rig
+if (sceneContext && sceneContext.cameraRig) {
+  initScrollTimeline(sceneContext.cameraRig);
+}
+
+console.log('Sky Street 3D World & Lenis Scroll Bridge initialized (Milestone M2).');

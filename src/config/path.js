@@ -1,6 +1,8 @@
 /**
- * path.js — Camera spline path and chapter scroll progress milestones
+ * path.js — 3D Camera Spline Points, LookAt Targets, and Chapter Progress Intervals
  */
+
+import * as THREE from 'three';
 
 export const CHAPTER_RANGES = {
   hero: { start: 0.00, end: 0.08, name: 'Hero' },
@@ -14,8 +16,40 @@ export const CHAPTER_RANGES = {
 };
 
 /**
- * Individual project intervals within the projects chapter range (0.35 to 0.78)
+ * 3D Spline Control Points for Camera Position
  */
+export const CAMERA_PATH_POINTS = [
+  new THREE.Vector3(0.0, 2.5, 9.2),     // 0.00 Hero
+  new THREE.Vector3(0.3, 0.5, 8.8),     // 0.12 About
+  new THREE.Vector3(0.5, -1.8, 8.5),    // 0.21 Skills
+  new THREE.Vector3(0.4, -4.2, 8.2),    // 0.30 Experience
+  new THREE.Vector3(0.2, -7.0, 8.0),    // 0.40 Projects (Start)
+  new THREE.Vector3(0.1, -11.5, 8.0),   // 0.55 Projects (Mid)
+  new THREE.Vector3(0.2, -16.0, 8.0),   // 0.70 Projects (End)
+  new THREE.Vector3(0.4, -19.2, 8.2),   // 0.80 More Projects
+  new THREE.Vector3(0.5, -22.5, 8.5),   // 0.88 Contact
+  new THREE.Vector3(0.0, -25.8, 8.8)    // 1.00 The End
+];
+
+/**
+ * 3D Spline Control Points for Camera LookAt Target
+ */
+export const CAMERA_LOOK_POINTS = [
+  new THREE.Vector3(1.2, 2.2, 0.0),     // Hero look target
+  new THREE.Vector3(1.5, 0.4, 0.0),     // About look target
+  new THREE.Vector3(1.6, -1.9, 0.0),    // Skills look target
+  new THREE.Vector3(1.8, -4.3, 0.0),    // Experience look target
+  new THREE.Vector3(1.6, -7.1, 0.0),    // Projects look target
+  new THREE.Vector3(1.6, -11.6, 0.0),   // Projects mid look target
+  new THREE.Vector3(1.6, -16.1, 0.0),   // Projects end look target
+  new THREE.Vector3(1.8, -19.3, 0.0),   // More Projects look target
+  new THREE.Vector3(1.8, -22.6, 0.0),   // Contact look target
+  new THREE.Vector3(1.2, -25.5, 0.0)    // The End look target
+];
+
+export const cameraPositionCurve = new THREE.CatmullRomCurve3(CAMERA_PATH_POINTS);
+export const cameraLookCurve = new THREE.CatmullRomCurve3(CAMERA_LOOK_POINTS);
+
 export function getProjectRange(index, total = 8) {
   const span = CHAPTER_RANGES.projects.end - CHAPTER_RANGES.projects.start;
   const step = span / total;
