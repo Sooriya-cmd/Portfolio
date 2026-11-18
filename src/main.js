@@ -10,6 +10,7 @@ import { initLenis, getLenis } from './scroll/lenis.js';
 import { createScene } from './scene/createScene.js';
 import { initScrollTimeline } from './scroll/timeline.js';
 import { initEntryScreen } from './ui/entryScreen.js';
+import { initPortfolioOverlay } from './ui/overlay.js';
 
 // DOM Mount Targets
 const contentMount = document.getElementById('content-mount');
@@ -36,248 +37,9 @@ function initMetadata() {
 }
 
 /**
- * Render Semantic Portfolio Content
+ * Bind interactive internal scroll links
  */
-function renderPortfolio() {
-  if (!contentMount) return;
-
-  const sectionsHtml = `
-    <!-- HERO SECTION -->
-    <section id="section-hero" class="portfolio-section" data-chapter="hero">
-      <div class="framed-panel">
-        <div class="panel-header">
-          <span class="index-badge">00 / STREET INTRO</span>
-        </div>
-        <p class="section-eyebrow">${escapeHtml(content.hero.eyebrow)}</p>
-        <h1 class="panel-title">${escapeHtml(content.hero.headline)}</h1>
-        <p class="panel-subtitle">${escapeHtml(content.hero.subline)}</p>
-        <div class="panel-body">
-          <p>${escapeHtml(content.entry.description)}</p>
-        </div>
-        <div class="btn-group">
-          <a href="#section-about" class="btn-primary" data-scroll-to="#section-about">
-            <span>${escapeHtml(content.hero.scrollHint || 'EXPLORE STREET')}</span>
-            <span aria-hidden="true">↓</span>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ABOUT SECTION -->
-    <section id="section-about" class="portfolio-section" data-chapter="about">
-      <div class="framed-panel">
-        <div class="panel-header">
-          <span class="index-badge">01 / ABOUT</span>
-        </div>
-        <p class="section-eyebrow">${escapeHtml(content.sections.about)}</p>
-        <h2 class="panel-title">${escapeHtml(content.about.heading)}</h2>
-        <div class="panel-body">
-          ${content.about.paragraphs.map(p => `<p>${escapeHtml(p)}</p>`).join('')}
-        </div>
-        ${content.about.facts && content.about.facts.length > 0 ? `
-          <div class="skills-grid" style="margin-bottom: 24px;">
-            ${content.about.facts.map(fact => `
-              <div class="skill-card">
-                <span class="skill-name" style="font-size: 0.95rem;">${escapeHtml(fact.label)}</span>
-                <span class="skill-category">${escapeHtml(fact.value)}</span>
-              </div>
-            `).join('')}
-          </div>
-        ` : ''}
-        <div class="btn-group">
-          <a href="#section-skills" class="btn-primary" data-scroll-to="#section-skills">SEE SKILLS →</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- SKILLS SECTION -->
-    <section id="section-skills" class="portfolio-section" data-chapter="skills">
-      <div class="framed-panel" style="max-width: 820px;">
-        <div class="panel-header">
-          <span class="index-badge">02 / CRAFT & SKILLS</span>
-        </div>
-        <p class="section-eyebrow">${escapeHtml(content.sections.skills)}</p>
-        <h2 class="panel-title">${escapeHtml(content.skills.heading)}</h2>
-        <div class="skills-grid">
-          ${content.skills.items.map(skill => `
-            <div class="skill-card">
-              <span class="skill-name">${escapeHtml(skill.name)}</span>
-              <span class="skill-category">${escapeHtml(skill.category)}</span>
-            </div>
-          `).join('')}
-        </div>
-        <div class="btn-group" style="margin-top: 24px;">
-          <a href="#section-experience" class="btn-primary" data-scroll-to="#section-experience">VIEW EXPERIENCE →</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- EXPERIENCE SECTION -->
-    <section id="section-experience" class="portfolio-section" data-chapter="experience">
-      <div class="framed-panel" style="max-width: 820px;">
-        <div class="panel-header">
-          <span class="index-badge">03 / TRANSIT & EXPERIENCE</span>
-        </div>
-        <p class="section-eyebrow">${escapeHtml(content.sections.experience)}</p>
-        <h2 class="panel-title">${escapeHtml(content.experience.heading)}</h2>
-        <div class="experience-list">
-          ${content.experience.items.map(exp => `
-            <div class="experience-card">
-              <div class="exp-header">
-                <h3 class="exp-role">${escapeHtml(exp.role)}</h3>
-                <span class="exp-period">${escapeHtml(exp.period)}</span>
-              </div>
-              <p class="exp-org">${escapeHtml(exp.organization)}</p>
-              <p class="panel-body" style="margin-bottom: 8px;">${escapeHtml(exp.summary)}</p>
-              ${exp.highlights && exp.highlights.length > 0 ? `
-                <ul class="exp-highlights">
-                  ${exp.highlights.map(h => `<li>${escapeHtml(h)}</li>`).join('')}
-                </ul>
-              ` : ''}
-            </div>
-          `).join('')}
-        </div>
-        <div class="btn-group" style="margin-top: 24px;">
-          <a href="#section-projects" class="btn-primary" data-scroll-to="#section-projects">EXPLORE PROJECTS (08) →</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROJECTS SECTION (8 DISTINCT PROJECTS) -->
-    <section id="section-projects" class="portfolio-section" data-chapter="projects">
-      <div style="width: 100%; display: flex; flex-direction: column; gap: 80px;">
-        ${content.projects.map((proj, idx) => {
-          const num = String(idx + 1).padStart(2, '0');
-          const total = String(content.projects.length).padStart(2, '0');
-          return `
-            <article id="${escapeHtml(proj.id)}" class="framed-panel" style="max-width: 800px;">
-              <div class="panel-header">
-                <span class="index-badge">${num} / ${total} PROJECT</span>
-                <span class="skill-category" style="font-size: 0.9rem; padding: 4px 10px;">${escapeHtml(proj.year)}</span>
-              </div>
-              <h3 class="panel-title">${escapeHtml(proj.title)}</h3>
-              <p class="panel-subtitle">${escapeHtml(proj.tagline)}</p>
-              
-              <div class="project-media-frame">
-                <img src="${escapeHtml(proj.image)}" alt="${escapeHtml(proj.imageAlt || proj.title)}" loading="lazy" />
-              </div>
-
-              <div class="panel-body">
-                <p>${escapeHtml(proj.description)}</p>
-              </div>
-
-              <div class="tag-list">
-                ${proj.tags.map(t => `<span class="tag-pill">${escapeHtml(t)}</span>`).join('')}
-              </div>
-
-              <div class="btn-group">
-                ${proj.links && proj.links.live ? `
-                  <a href="${escapeHtml(proj.links.live)}" target="_blank" rel="noopener noreferrer" class="btn-primary">
-                    <span>LIVE DEMO</span>
-                    <span aria-hidden="true">↗</span>
-                  </a>
-                ` : ''}
-                ${proj.links && proj.links.repo ? `
-                  <a href="${escapeHtml(proj.links.repo)}" target="_blank" rel="noopener noreferrer" class="btn-secondary">
-                    <span>SOURCE CODE</span>
-                    <span aria-hidden="true">↗</span>
-                  </a>
-                ` : ''}
-                ${idx < content.projects.length - 1 ? `
-                  <a href="#${content.projects[idx + 1].id}" class="btn-secondary" data-scroll-to="#${content.projects[idx + 1].id}">NEXT PROJECT →</a>
-                ` : `
-                  <a href="#section-more-projects" class="btn-secondary" data-scroll-to="#section-more-projects">STAY TUNED →</a>
-                `}
-              </div>
-            </article>
-          `;
-        }).join('')}
-      </div>
-    </section>
-
-    <!-- MORE PROJECTS TRANSITION -->
-    <section id="section-more-projects" class="portfolio-section" data-chapter="moreProjects">
-      <div class="framed-panel">
-        <div class="panel-header">
-          <span class="index-badge">09 / ??</span>
-        </div>
-        <p class="section-eyebrow">${escapeHtml(content.moreProjects.label)}</p>
-        <h2 class="panel-title">${escapeHtml(content.moreProjects.heading)}</h2>
-        <div class="panel-body">
-          <p>${escapeHtml(content.moreProjects.text)}</p>
-        </div>
-        <div class="btn-group">
-          <a href="#section-contact" class="btn-primary" data-scroll-to="#section-contact">GET IN TOUCH →</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT SECTION -->
-    <section id="section-contact" class="portfolio-section" data-chapter="contact">
-      <div class="framed-panel">
-        <div class="panel-header">
-          <span class="index-badge">10 / CONTACT</span>
-        </div>
-        <p class="section-eyebrow">${escapeHtml(content.sections.contact)}</p>
-        <h2 class="panel-title">${escapeHtml(content.contact.heading)}</h2>
-        <div class="panel-body">
-          <p>${escapeHtml(content.contact.text)}</p>
-        </div>
-
-        <div class="btn-group" style="margin-bottom: 24px;">
-          ${content.person.email ? `
-            <a href="mailto:${escapeHtml(content.person.email)}" class="btn-primary">
-              <span>${escapeHtml(content.contact.cta)}</span>
-              <span aria-hidden="true">✉</span>
-            </a>
-          ` : ''}
-          ${content.person.resume ? `
-            <a href="${escapeHtml(content.person.resume)}" target="_blank" rel="noopener noreferrer" class="btn-secondary">
-              <span>RESUME</span>
-              <span aria-hidden="true">📄</span>
-            </a>
-          ` : ''}
-        </div>
-
-        ${content.socials && content.socials.some(s => s.url) ? `
-          <div class="tag-list">
-            ${content.socials.filter(s => s.url).map(s => `
-              <a href="${escapeHtml(s.url)}" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="font-size: 0.95rem; padding: 6px 16px;">
-                <span>${escapeHtml(s.label)}</span>
-                <span aria-hidden="true">↗</span>
-              </a>
-            `).join('')}
-          </div>
-        ` : ''}
-      </div>
-    </section>
-
-    <!-- THE END FINALE SECTION -->
-    <section id="section-ending" class="portfolio-section" data-chapter="ending">
-      <div class="framed-panel">
-        <div class="panel-header">
-          <span class="index-badge">11 / FINALE</span>
-        </div>
-        <h2 class="panel-title">${escapeHtml(content.ending.heading)}</h2>
-        <div class="panel-body">
-          <p>${escapeHtml(content.ending.text)}</p>
-          <p style="font-size: 0.9rem; color: var(--color-text-muted); margin-top: 20px;">
-            ${escapeHtml(content.ending.footer)}
-          </p>
-        </div>
-        <div class="btn-group">
-          <button id="btn-back-to-top" class="btn-primary">
-            <span>BACK TO START</span>
-            <span aria-hidden="true">↑</span>
-          </button>
-        </div>
-      </div>
-    </section>
-  `;
-
-  contentMount.innerHTML = sectionsHtml;
-
-  // Bind Back to top button via Lenis
+function bindInteractiveLinks() {
   const backToTopBtn = document.getElementById('btn-back-to-top');
   if (backToTopBtn) {
     backToTopBtn.addEventListener('click', () => {
@@ -290,7 +52,6 @@ function renderPortfolio() {
     });
   }
 
-  // Bind internal scroll-to links
   document.querySelectorAll('[data-scroll-to]').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
@@ -463,7 +224,8 @@ function escapeHtml(str) {
 
 // 1. Kick off UI rendering
 initMetadata();
-renderPortfolio();
+const projectShowcase = initPortfolioOverlay(contentMount);
+bindInteractiveLinks();
 initChapterMenu();
 initScrollTracking();
 initSoundControl();
@@ -485,9 +247,9 @@ const lenis = initLenis();
 // 4. Initialize Three.js 3D World
 const sceneContext = createScene(canvasContainer);
 
-// 5. Synchronize ScrollTrigger with Camera Rig
+// 5. Synchronize ScrollTrigger with Camera Rig and Project Showcase
 if (sceneContext && sceneContext.cameraRig) {
-  initScrollTimeline(sceneContext.cameraRig);
+  initScrollTimeline(sceneContext.cameraRig, projectShowcase);
 }
 
 console.log('Sky Street 3D World & Lenis Scroll Bridge initialized (Milestone M2).');

@@ -11,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 let scrollTriggerInstance = null;
 let devReadoutEl = null;
 
-export function initScrollTimeline(cameraRig) {
+export function initScrollTimeline(cameraRig, projectShowcase) {
   // Destroy existing if any
   if (scrollTriggerInstance) {
     scrollTriggerInstance.kill();
@@ -48,6 +48,10 @@ export function initScrollTimeline(cameraRig) {
 
       if (cameraRig) {
         cameraRig.setProgress(progress);
+      }
+
+      if (projectShowcase) {
+        projectShowcase.onScrollProgress(progress);
       }
 
       // Update development readout

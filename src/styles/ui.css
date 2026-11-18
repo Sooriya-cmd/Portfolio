@@ -814,3 +814,59 @@
   transform: translateY(-2px);
   box-shadow: 3px 3px 0px var(--color-pink-layer);
 }
+
+/* --------------------------------------------------------------------------
+   Sticky Project Showcase Panel & Carousel
+   -------------------------------------------------------------------------- */
+.showcase-sticky-container {
+  position: sticky;
+  top: 100px;
+  max-width: 760px;
+  width: 100%;
+  z-index: 10;
+}
+
+.project-showcase-panel {
+  max-width: 760px;
+  width: 100%;
+}
+
+.project-showcase-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.project-nav-arrows {
+  display: flex;
+  gap: 10px;
+}
+
+.project-nav-arrows .btn-icon {
+  width: 44px;
+  height: 44px;
+  font-size: 1.1rem;
+}
+
+.project-nav-arrows .btn-icon:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Screen reader only utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
