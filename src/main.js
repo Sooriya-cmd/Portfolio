@@ -278,6 +278,11 @@ function initJiuEyeTracking() {
   requestAnimationFrame(step);
 }
 
+// Prevent browser from restoring scrolled position on refresh
+if (typeof history !== 'undefined' && 'scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
 // 1. Kick off UI rendering and Accessibility
 initMetadata();
 initAccessibility();
@@ -302,11 +307,17 @@ initEntryScreen({
       document.body.classList.remove('is-2d-mode');
       document.body.classList.add('is-3d-mode');
     }
+    const lenisInst = getLenis();
+    if (lenisInst) lenisInst.scrollTo(0, { immediate: true });
+    else window.scrollTo(0, 0);
   },
   onEnter2D: () => {
     document.body.classList.add('is-2d-mode');
     document.body.classList.remove('is-3d-mode');
     if (canvasContainer) canvasContainer.style.display = 'none';
+    const lenisInst = getLenis();
+    if (lenisInst) lenisInst.scrollTo(0, { immediate: true });
+    else window.scrollTo(0, 0);
   }
 });
 

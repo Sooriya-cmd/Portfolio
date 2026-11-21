@@ -16,27 +16,41 @@ let scrollTriggerInstance = null;
 export function initBoxEntranceAnimations() {
   if (typeof window === 'undefined') return;
 
-  // Respect reduced motion preference
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const isReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isMobile = window.innerWidth <= 768;
+
+  // On mobile touch devices or reduced motion, guarantee 100% full visibility for all sections immediately
+  if (isReducedMotion || isMobile) {
+    gsap.set('.framed-panel, .education-card, .skill-category-box, .experience-card, .achievement-box', {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      clearProps: 'transform'
+    });
     return;
   }
 
+  // Desktop entrance reveals: pop-in once on scroll and never disappear
   // 1. Framed portfolio panels (Hero, About, Skills, Experience, More Projects, Contact, Ending)
   const panels = gsap.utils.toArray('.framed-panel');
   panels.forEach((panel) => {
+    const rect = panel.getBoundingClientRect();
+    const alreadyVisible = rect.top < window.innerHeight;
+
     gsap.fromTo(
       panel,
-      { opacity: 0, y: 20, scale: 0.94 },
+      { opacity: alreadyVisible ? 1 : 0, y: alreadyVisible ? 0 : 20, scale: alreadyVisible ? 1 : 0.96 },
       {
         opacity: 1,
         y: 0,
         scale: 1,
         duration: 0.55,
-        ease: 'back.out(1.2)',
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: panel,
-          start: 'top 85%',
-          toggleActions: 'play none none reverse'
+          start: 'top 88%',
+          toggleActions: 'play none none none',
+          once: true
         }
       }
     );
@@ -45,19 +59,22 @@ export function initBoxEntranceAnimations() {
   // 2. Education Card
   const eduCard = document.querySelector('.education-card');
   if (eduCard) {
+    const rect = eduCard.getBoundingClientRect();
+    const alreadyVisible = rect.top < window.innerHeight;
     gsap.fromTo(
       eduCard,
-      { opacity: 0, y: 16, scale: 0.95 },
+      { opacity: alreadyVisible ? 1 : 0.2, y: alreadyVisible ? 0 : 16, scale: alreadyVisible ? 1 : 0.96 },
       {
         opacity: 1,
         y: 0,
         scale: 1,
-        duration: 0.5,
-        ease: 'back.out(1.15)',
+        duration: isMobile ? 0.35 : 0.5,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: eduCard,
-          start: 'top 85%',
-          toggleActions: 'play none none reverse'
+          start: isMobile ? 'top 95%' : 'top 85%',
+          toggleActions: 'play none none none',
+          once: true
         }
       }
     );
@@ -68,18 +85,19 @@ export function initBoxEntranceAnimations() {
   if (skillBoxes.length > 0) {
     gsap.fromTo(
       skillBoxes,
-      { opacity: 0, y: 16, scale: 0.95 },
+      { opacity: isMobile ? 0.4 : 0, y: 16, scale: 0.96 },
       {
         opacity: 1,
         y: 0,
         scale: 1,
-        duration: 0.5,
-        stagger: 0.09,
-        ease: 'back.out(1.15)',
+        duration: 0.45,
+        stagger: isMobile ? 0.05 : 0.09,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: '#section-skills',
-          start: 'top 75%',
-          toggleActions: 'play none none reverse'
+          start: isMobile ? 'top 92%' : 'top 75%',
+          toggleActions: 'play none none none',
+          once: true
         }
       }
     );
@@ -90,18 +108,19 @@ export function initBoxEntranceAnimations() {
   if (expCards.length > 0) {
     gsap.fromTo(
       expCards,
-      { opacity: 0, y: 16, scale: 0.95 },
+      { opacity: isMobile ? 0.4 : 0, y: 16, scale: 0.96 },
       {
         opacity: 1,
         y: 0,
         scale: 1,
-        duration: 0.5,
-        stagger: 0.1,
-        ease: 'back.out(1.15)',
+        duration: 0.45,
+        stagger: isMobile ? 0.06 : 0.1,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: '#section-experience',
-          start: 'top 75%',
-          toggleActions: 'play none none reverse'
+          start: isMobile ? 'top 92%' : 'top 75%',
+          toggleActions: 'play none none none',
+          once: true
         }
       }
     );
@@ -112,22 +131,26 @@ export function initBoxEntranceAnimations() {
   if (achBoxes.length > 0) {
     gsap.fromTo(
       achBoxes,
-      { opacity: 0, y: 16, scale: 0.95 },
+      { opacity: isMobile ? 0.4 : 0, y: 16, scale: 0.96 },
       {
         opacity: 1,
         y: 0,
         scale: 1,
-        duration: 0.5,
-        stagger: 0.1,
-        ease: 'back.out(1.15)',
+        duration: 0.45,
+        stagger: isMobile ? 0.06 : 0.1,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: '#section-experience',
-          start: 'top 60%',
-          toggleActions: 'play none none reverse'
+          start: isMobile ? 'top 90%' : 'top 60%',
+          toggleActions: 'play none none none',
+          once: true
         }
       }
     );
   }
+
+  // Refresh ScrollTrigger calculations after initial setup
+  ScrollTrigger.refresh();
 }
 
 export function initScrollTimeline(cameraRig, projectShowcase) {

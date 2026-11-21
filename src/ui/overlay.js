@@ -132,7 +132,7 @@ export function initPortfolioOverlay(mountEl) {
         <!-- Achievements & Recognitions -->
         <div style="margin-top: 28px;">
           <h3 style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 900; color: #11111E; margin-bottom: 12px;">ACHIEVEMENTS & COURSES</h3>
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px;">
+          <div class="achievement-grid">
             <div class="achievement-box" style="background: #FFFFFF; border: var(--border-medium); border-radius: var(--radius-sm); padding: 16px; box-shadow: 2px 2px 0px var(--color-panel-border);">
               <h5 style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 900; color: #FF4F92; margin-bottom: 8px;">ACADEMIC RECOGNITION</h5>
               <ul style="padding-left: 18px; font-size: 0.95rem; line-height: 1.5; color: var(--color-text-secondary);">
