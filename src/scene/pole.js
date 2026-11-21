@@ -337,32 +337,21 @@ export function createUtilityPole() {
   });
   attachSignWithBracket(aboutSign, -1.45, 0.6, 0.35, 2.0, 0);
 
-  // Milestone: Skills Street Names (BLENDER ST., THREE.JS AV., SHADER ALLEY)
-  // Perfectly spaced at delta-y = 0.50 with width 1.6 to prevent pole penetration
-  const blenderSign = createStreetSign({ text: 'BLENDER ST.', bgColor: '#27AE60', width: 1.6, height: 0.38 });
-  attachSignWithBracket(blenderSign, -1.35, -1.70, 0.35, 1.6, 1);
-
-  const threeSign = createStreetSign({ text: 'THREE.JS AV.', bgColor: '#FFFFFF', textColor: '#11111E', width: 1.6, height: 0.38 });
-  attachSignWithBracket(threeSign, -1.35, -2.20, 0.35, 1.6, 2);
-
-  const shaderSign = createStreetSign({ text: 'SHADER ALLEY', bgColor: '#8E44AD', width: 1.6, height: 0.38 });
-  attachSignWithBracket(shaderSign, -1.35, -2.70, 0.35, 1.6, 3);
-
   // Milestone: Experience Bus Stop (y ≈ -4.5)
   const expSign = createStreetSign({ text: 'EXPERIENCE BUS', subtext: 'ROUTE 100 → NE', bgColor: '#0F8A5F', width: 2.1, height: 0.70 });
-  attachSignWithBracket(expSign, -1.45, -4.50, 0.35, 2.1, 4);
+  attachSignWithBracket(expSign, -1.45, -4.50, 0.35, 2.1, 1);
 
   // Milestone: Projects Arrow Sign (y ≈ -6.8)
   const projSign = createStreetSign({ text: 'PROJECTS 🠗', bgColor: '#F39C12', width: 1.9, height: 0.55 });
-  attachSignWithBracket(projSign, -1.40, -6.80, 0.35, 1.9, 5);
+  attachSignWithBracket(projSign, -1.40, -6.80, 0.35, 1.9, 2);
 
   // Milestone: More Projects ArtStation Sign (y ≈ -19.6; well clear of jackpot signal at y = -17.8)
   const artstationSign = createStreetSign({ text: 'ARTSTATION ➔', bgColor: '#131A26', textColor: '#00F0FF', width: 1.7, height: 0.42 });
-  attachSignWithBracket(artstationSign, -1.35, -19.60, 0.35, 1.7, 6);
+  attachSignWithBracket(artstationSign, -1.35, -19.60, 0.35, 1.7, 3);
 
   // Milestone: Contacts Signs (y ≈ -22.5)
   const contactSign = createStreetSign({ text: 'CONTACTS / SAY HI 🠗', bgColor: '#FFFFFF', textColor: '#11111E', width: 2.0, height: 0.50 });
-  attachSignWithBracket(contactSign, -1.45, -22.50, 0.35, 2.0, 7);
+  attachSignWithBracket(contactSign, -1.45, -22.50, 0.35, 2.0, 4);
 
   // Mailbox prop on pole at contacts
   const mailboxGeo = new THREE.BoxGeometry(0.55, 0.65, 0.40);

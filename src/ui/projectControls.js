@@ -4,7 +4,7 @@
 
 import content from '../config/content.json';
 import { CHAPTER_RANGES, getProjectRange } from '../config/path.js';
-import { getLenis } from '../scroll/lenis.js';
+import gsap from 'gsap';
 
 export class ProjectShowcase {
   constructor(container) {
@@ -12,6 +12,7 @@ export class ProjectShowcase {
     this.projects = content.projects || [];
     this.currentIndex = 0;
     this.total = this.projects.length;
+    this.isTransitioning = false;
 
     this.render();
     this.bindEvents();
@@ -119,55 +120,87 @@ export class ProjectShowcase {
     if (this.nextBtn) this.nextBtn.disabled = (index === this.total - 1);
   }
 
-  scrollToProject(index) {
-    if (index < 0 || index >= this.total) return;
-    const range = getProjectRange(index, this.total);
-    const scrollTargetProgress = range.start + 0.01;
+  /**
+   * In-place smooth project navigation transition.
+   * Keeps the website completely static during transitions so visitors
+   * can clearly inspect each project without unnecessary page movement (Requirement 4).
+   */
+  goToProject(index) {
+    if (index < 0 || index >= this.total || index === this.currentIndex || this.isTransitioning) return;
+    this.isTransitioning = true;
 
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    const targetScrollY = scrollTargetProgress * maxScroll;
+    const contentEl = this.container.querySelector('.project-showcase-content');
+    const dir = index > this.currentIndex ? 1 : -1;
 
-    const lenis = getLenis();
-    if (lenis) {
-      lenis.scrollTo(targetScrollY);
+    if (contentEl) {
+      gsap.to(contentEl, {
+        opacity: 0,
+        x: -18 * dir,
+        duration: 0.18,
+        ease: 'power2.in',
+        onComplete: () => {
+          this.updateProject(index);
+          gsap.fromTo(
+            contentEl,
+            { opacity: 0, x: 18 * dir },
+            {
+              opacity: 1,
+              x: 0,
+              duration: 0.28,
+              ease: 'back.out(1.2)',
+              onComplete: () => {
+                this.isTransitioning = false;
+              }
+            }
+          );
+        }
+      });
     } else {
-      window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
+      this.updateProject(index);
+      this.isTransitioning = false;
     }
   }
 
   bindEvents() {
     if (this.prevBtn) {
-      this.prevBtn.addEventListener('click', () => {
+      this.prevBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         if (this.currentIndex > 0) {
-          this.scrollToProject(this.currentIndex - 1);
+          this.goToProject(this.currentIndex - 1);
         }
       });
     }
 
     if (this.nextBtn) {
-      this.nextBtn.addEventListener('click', () => {
+      this.nextBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         if (this.currentIndex < this.total - 1) {
-          this.scrollToProject(this.currentIndex + 1);
+          this.goToProject(this.currentIndex + 1);
         }
       });
     }
 
-    // Keyboard navigation (ArrowLeft / ArrowRight)
+    // Keyboard navigation (ArrowLeft / ArrowRight) in-place without page jumping
     window.addEventListener('keydown', (e) => {
       const scrollY = window.scrollY;
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = maxScroll > 0 ? scrollY / maxScroll : 0;
-      if (progress >= CHAPTER_RANGES.projects.start && progress <= CHAPTER_RANGES.projects.end) {
+      if (progress >= CHAPTER_RANGES.projects.start - 0.05 && progress <= CHAPTER_RANGES.projects.end + 0.05) {
         if (e.key === 'ArrowRight' && this.currentIndex < this.total - 1) {
-          this.scrollToProject(this.currentIndex + 1);
+          e.preventDefault();
+          this.goToProject(this.currentIndex + 1);
         } else if (e.key === 'ArrowLeft' && this.currentIndex > 0) {
-          this.scrollToProject(this.currentIndex - 1);
+          e.preventDefault();
+          this.goToProject(this.currentIndex - 1);
         }
       }
     });
   }
 
   onScrollProgress(progress) {
+    if (this.isTransitioning) return;
     if (progress < CHAPTER_RANGES.projects.start || progress > CHAPTER_RANGES.projects.end) {
       return;
     }

@@ -190,9 +190,10 @@
   },
   "contact": {
     "heading": "SAY HELLO",
-    "text": "Have a project in mind, want to collaborate, or just want to connect? Feel free to reach out anytime.",
+    "text": "Collab? Chaos? Random tech talks? I'm just one message away.",
     "email": "sooriyajaya39@gmail.com",
-    "cta": "SEND EMAIL"
+    "cta": "SEND EMAIL",
+    "resumeUrl": "/Jayasooriya_Resume.pdf"
   },
   "socials": [
     { "label": "GitHub", "url": "https://github.com/Sooriya-cmd" },
@@ -202,7 +203,7 @@
   "ending": {
     "heading": "THE END",
     "text": "Curiosity starts the journey. Consistency builds the future.",
-    "footer": "Jayasooriya — Aspiring Software Engineer."
+    "footer": ""
   },
   "guide": {
     "name": "JIU",

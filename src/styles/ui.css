@@ -39,7 +39,11 @@
 
 .btn-icon:hover {
   transform: translate(-1px, -1px);
-  box-shadow: -3px -3px 0px var(--color-cyan-layer), 4px 4px 0px var(--color-pink-layer);
+  box-shadow: 
+    -3px -3px 0px var(--color-cyan-layer), 
+    4px 4px 0px var(--color-pink-layer),
+    0 0 14px rgba(46, 229, 239, 0.65),
+    0 0 22px rgba(255, 79, 146, 0.45);
 }
 
 .btn-icon:active {
@@ -506,10 +510,25 @@
   background: #EEF2FF;
   border: var(--border-thin);
   border-radius: var(--radius-pill);
-  padding: 4px 12px;
-  font-size: 0.85rem;
+  padding: 5px 14px;
+  font-size: 0.88rem;
   font-weight: 700;
   color: #3158DF;
+  cursor: default;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+
+/* Tech Skills Hover Glow (Requirement 2) */
+.tag-pill:hover {
+  transform: translateY(-2px) scale(1.05);
+  background: #FFFFFF;
+  color: #11111E;
+  border-color: #2EE5EF;
+  box-shadow: 
+    -2px -2px 0px var(--color-cyan-layer), 
+    2px 2px 0px var(--color-pink-layer),
+    0 0 14px rgba(46, 229, 239, 0.75),
+    0 0 24px rgba(255, 79, 146, 0.40);
 }
 
 /* Button Groups */
@@ -535,12 +554,16 @@
   text-decoration: none;
   box-shadow: -2px -2px 0px var(--color-cyan-layer), 3px 3px 0px var(--color-pink-layer);
   cursor: pointer;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
 }
 
 .btn-primary:hover {
   transform: translate(-1px, -1px);
-  box-shadow: -3px -3px 0px var(--color-cyan-layer), 4px 4px 0px var(--color-pink-layer);
+  box-shadow: 
+    -3px -3px 0px var(--color-cyan-layer), 
+    4px 4px 0px var(--color-pink-layer),
+    0 0 18px rgba(46, 229, 239, 0.7),
+    0 0 28px rgba(255, 79, 146, 0.45);
 }
 
 .btn-secondary {
@@ -559,12 +582,51 @@
   text-decoration: none;
   box-shadow: 2px 2px 0px var(--color-panel-border);
   cursor: pointer;
-  transition: transform var(--transition-fast);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
 }
 
 .btn-secondary:hover {
   background: var(--color-yellow-badge);
   transform: translateY(-2px);
+  box-shadow: 
+    2px 2px 0px var(--color-panel-border),
+    0 0 16px rgba(255, 210, 31, 0.65),
+    0 0 24px rgba(46, 229, 239, 0.35);
+}
+
+/* Dedicated Resume Button: Mild-Red Aesthetic (Requirement 10) */
+.btn-resume {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #D9534F;
+  color: #FFFFFF;
+  border: var(--border-medium);
+  border-radius: var(--radius-pill);
+  padding: 10px 22px;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  box-shadow: -2px -2px 0px var(--color-cyan-layer), 3px 3px 0px #8B2B2B;
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+}
+
+.btn-resume:hover {
+  background: #E55B57;
+  transform: translate(-1px, -1px);
+  box-shadow: 
+    -3px -3px 0px var(--color-cyan-layer), 
+    4px 4px 0px #8B2B2B,
+    0 0 18px rgba(217, 83, 79, 0.75),
+    0 0 26px rgba(255, 79, 146, 0.45);
+}
+
+.btn-resume:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-button-press);
 }
 
 /* Skills Grid */

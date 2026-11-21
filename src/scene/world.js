@@ -9,6 +9,7 @@ import { createTrafficSignal, createJackpotSignal, createSnakeArcadeBox, createF
 import { populateSceneBirds } from './birds.js';
 import { CloudsField } from './clouds.js';
 import { DayNightCycle } from './dayNight.js';
+import { SkyProps } from './skyProps.js';
 import { cameraPositionCurve } from '../config/path.js';
 
 export class World {
@@ -67,6 +68,9 @@ export class World {
     // 6. Sagging catenary wires
     this.wires = createWires();
     this.group.add(this.wires);
+
+    // 7. Sky props (Animated morning plane & night UFO)
+    this.skyProps = new SkyProps(this.scene);
   }
 
   initDebugPath() {
@@ -115,6 +119,11 @@ export class World {
     // Update Finale Disco Ball
     if (this.finaleProps && this.finaleProps.userData && this.finaleProps.userData.update) {
       this.finaleProps.userData.update(elapsedTime);
+    }
+
+    // Update animated sky props (Plane & UFO)
+    if (this.skyProps) {
+      this.skyProps.update(progress, deltaTime, elapsedTime);
     }
 
     // Update day-night transitions

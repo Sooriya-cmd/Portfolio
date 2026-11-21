@@ -29,6 +29,10 @@ export function initPortfolioOverlay(mountEl) {
             <span>${escapeHtml(content.hero.scrollHint || 'EXPLORE STREET')}</span>
             <span aria-hidden="true">↓</span>
           </a>
+          <a href="/Jayasooriya_Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn-resume">
+            <span>RESUME</span>
+            <span aria-hidden="true">📄</span>
+          </a>
         </div>
       </div>
     </section>
@@ -213,6 +217,10 @@ export function initPortfolioOverlay(mountEl) {
               <span aria-hidden="true">✉</span>
             </a>
           ` : ''}
+          <a href="/Jayasooriya_Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn-resume">
+            <span>VIEW RESUME</span>
+            <span aria-hidden="true">📄</span>
+          </a>
         </div>
 
         <!-- Social Links (GitHub, LinkedIn, LeetCode) -->
@@ -239,9 +247,6 @@ export function initPortfolioOverlay(mountEl) {
         <div class="panel-body">
           <p style="font-size: 1.25rem; font-weight: 700; color: #3158DF; margin-bottom: 8px;">
             "${escapeHtml(content.ending.text)}"
-          </p>
-          <p style="font-size: 1rem; color: var(--color-text-secondary); margin-top: 16px;">
-            ${escapeHtml(content.ending.footer)}
           </p>
         </div>
         <div class="btn-group">

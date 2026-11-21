@@ -122,7 +122,24 @@ export function createTrafficSignal() {
   signalGroup.userData = {
     update: (time) => {
       lensMats.forEach((mat, i) => {
-        mat.emissiveIntensity = 0.45 + Math.sin(time * 1.8 + i * 1.2) * 0.10;
+        // Individualized periodic cycle with occasional random-like flicker & blinking (Requirement 1)
+        const cycle = (time * 0.75 + i * 2.1) % 4.2;
+        let intensity = 0.55;
+
+        // Occasional double-blink / flicker dip
+        if (cycle < 0.10) {
+          intensity = 0.15; // Quick dip
+        } else if (cycle > 0.14 && cycle < 0.22) {
+          intensity = 0.95; // Brief pulse
+        } else if (cycle > 0.26 && cycle < 0.33) {
+          intensity = 0.20; // Second flicker dip
+        } else {
+          // Subtle organic electronic vibration
+          const hum = Math.sin(time * 20 + i * 9) * 0.04;
+          intensity = 0.55 + hum;
+        }
+
+        mat.emissiveIntensity = intensity;
       });
     }
   };
