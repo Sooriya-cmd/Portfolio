@@ -118,6 +118,12 @@ export class ProjectShowcase {
     // Enable/disable navigation buttons
     if (this.prevBtn) this.prevBtn.disabled = (index === 0);
     if (this.nextBtn) this.nextBtn.disabled = (index === this.total - 1);
+
+    // Keep JIU assistant dialogue synchronized across all projects (Requirement 3)
+    const guideMsg = document.getElementById('guide-message');
+    if (guideMsg) {
+      guideMsg.textContent = "Yeah...I also Don't know";
+    }
   }
 
   /**
@@ -184,10 +190,11 @@ export class ProjectShowcase {
 
     // Keyboard navigation (ArrowLeft / ArrowRight) in-place without page jumping
     window.addEventListener('keydown', (e) => {
-      const scrollY = window.scrollY;
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = maxScroll > 0 ? scrollY / maxScroll : 0;
-      if (progress >= CHAPTER_RANGES.projects.start - 0.05 && progress <= CHAPTER_RANGES.projects.end + 0.05) {
+      const projSec = document.getElementById('section-projects');
+      if (!projSec) return;
+      const rect = projSec.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight && rect.bottom > 0;
+      if (inView) {
         if (e.key === 'ArrowRight' && this.currentIndex < this.total - 1) {
           e.preventDefault();
           this.goToProject(this.currentIndex + 1);
@@ -200,15 +207,6 @@ export class ProjectShowcase {
   }
 
   onScrollProgress(progress) {
-    if (this.isTransitioning) return;
-    if (progress < CHAPTER_RANGES.projects.start || progress > CHAPTER_RANGES.projects.end) {
-      return;
-    }
-    const span = CHAPTER_RANGES.projects.end - CHAPTER_RANGES.projects.start;
-    const relProgress = (progress - CHAPTER_RANGES.projects.start) / span;
-    const newIndex = Math.min(Math.floor(relProgress * this.total), this.total - 1);
-    if (newIndex !== this.currentIndex && newIndex >= 0) {
-      this.updateProject(newIndex);
-    }
+    // Retain explicit user control via buttons/keys so page scrolling does not hijack or skip projects
   }
 }

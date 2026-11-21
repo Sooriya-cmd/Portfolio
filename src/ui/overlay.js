@@ -163,8 +163,8 @@ export function initPortfolioOverlay(mountEl) {
     </section>
 
     <!-- PROJECTS SECTION: 3 CONFIRMED PROJECTS -->
-    <section id="section-projects" class="portfolio-section" data-chapter="projects" style="min-height: 220vh;">
-      <div class="showcase-sticky-container">
+    <section id="section-projects" class="portfolio-section" data-chapter="projects">
+      <div class="project-showcase-wrapper">
         <div id="project-showcase-mount"></div>
       </div>
 

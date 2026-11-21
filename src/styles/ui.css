@@ -483,11 +483,12 @@
 /* Project Image Frame */
 .project-media-frame {
   width: 100%;
+  max-height: 220px;
   aspect-ratio: 16 / 9;
   border-radius: var(--radius-md);
   border: var(--border-medium);
   overflow: hidden;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   background: #11111E;
 }
 
@@ -914,19 +915,56 @@
 }
 
 /* --------------------------------------------------------------------------
-   Sticky Project Showcase Panel & Carousel
+   Project Showcase Panel & Carousel
    -------------------------------------------------------------------------- */
+.project-showcase-wrapper,
 .showcase-sticky-container {
-  position: sticky;
-  top: 100px;
   max-width: 760px;
   width: 100%;
+  position: relative;
   z-index: 10;
 }
 
 .project-showcase-panel {
   max-width: 760px;
   width: 100%;
+  padding: 28px 32px;
+}
+
+.project-showcase-panel .panel-header {
+  margin-bottom: 12px;
+}
+
+.project-showcase-panel .panel-title {
+  font-size: clamp(2rem, 3.2vw, 2.7rem);
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.project-showcase-panel .panel-subtitle {
+  font-size: 1.05rem;
+  margin-bottom: 14px;
+}
+
+.project-showcase-panel .project-media-frame {
+  max-height: 220px;
+  margin-bottom: 14px;
+}
+
+.project-showcase-panel .panel-body {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+.project-showcase-panel .tag-list {
+  margin-bottom: 16px;
+  gap: 6px;
+}
+
+.project-showcase-panel .tag-pill {
+  padding: 4px 12px;
+  font-size: 0.85rem;
 }
 
 .project-showcase-footer {
@@ -935,7 +973,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 16px;
-  margin-top: 24px;
+  margin-top: 16px;
 }
 
 .project-nav-arrows {
@@ -992,9 +1030,42 @@
     font-size: 2.2rem;
   }
 
-  .showcase-sticky-container {
+  .showcase-sticky-container,
+  .project-showcase-wrapper {
     top: auto;
-    bottom: 20px;
+    bottom: auto;
+  }
+
+  .project-showcase-panel {
+    padding: 18px 18px;
+  }
+
+  .project-showcase-panel .panel-title {
+    font-size: 1.7rem;
+  }
+
+  .project-showcase-panel .panel-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+  }
+
+  .project-showcase-panel .project-media-frame {
+    max-height: 150px;
+    margin-bottom: 10px;
+  }
+
+  .project-showcase-panel .panel-body {
+    font-size: 0.88rem;
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+
+  .project-showcase-panel .tag-list {
+    margin-bottom: 12px;
+  }
+
+  .project-showcase-footer {
+    margin-top: 10px;
   }
 
   /* Keep guide container compact */
