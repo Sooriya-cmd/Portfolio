@@ -29,7 +29,7 @@ export function initEntryScreen({ onEnter3D }) {
         <!-- Center Interactive Circular Developer Illustration Frame -->
         <button id="btn-enter-hero" class="entry-circle-btn" aria-label="Enter Jayasooriya's Portfolio">
           <div class="entry-image-container">
-            <img src="/p.png" alt="Jayasooriya Developer Illustration" class="entry-hero-img" />
+            <img src="${import.meta.env.BASE_URL}p.png" alt="Jayasooriya Developer Illustration" class="entry-hero-img" />
           </div>
           <div class="entry-border-ring cyan"></div>
           <div class="entry-border-ring pink"></div>

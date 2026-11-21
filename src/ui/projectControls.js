@@ -6,6 +6,17 @@ import content from '../config/content.json';
 import { CHAPTER_RANGES, getProjectRange } from '../config/path.js';
 import gsap from 'gsap';
 
+function resolveAssetUrl(url) {
+  if (!url) return '';
+  if (url.startsWith('/')) {
+    const base = import.meta.env.BASE_URL.endsWith('/')
+      ? import.meta.env.BASE_URL
+      : `${import.meta.env.BASE_URL}/`;
+    return `${base}${url.slice(1)}`;
+  }
+  return url;
+}
+
 export class ProjectShowcase {
   constructor(container) {
     this.container = container;
@@ -33,7 +44,7 @@ export class ProjectShowcase {
           <p id="proj-tagline" class="panel-subtitle">${this.projects[0]?.tagline || ''}</p>
           
           <div class="project-media-frame">
-            <img id="proj-image" src="${this.projects[0]?.image || ''}" alt="${this.projects[0]?.imageAlt || ''}" />
+            <img id="proj-image" src="${resolveAssetUrl(this.projects[0]?.image)}" alt="${this.projects[0]?.imageAlt || ''}" />
           </div>
 
           <p id="proj-desc" class="panel-body">${this.projects[0]?.description || ''}</p>
@@ -86,7 +97,7 @@ export class ProjectShowcase {
     if (this.descEl) this.descEl.textContent = proj.description || '';
 
     if (this.imageEl) {
-      this.imageEl.src = proj.image;
+      this.imageEl.src = resolveAssetUrl(proj.image);
       this.imageEl.alt = proj.imageAlt || proj.title;
     }
 

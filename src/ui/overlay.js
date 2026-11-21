@@ -29,7 +29,7 @@ export function initPortfolioOverlay(mountEl) {
             <span>${escapeHtml(content.hero.scrollHint || 'EXPLORE STREET')}</span>
             <span aria-hidden="true">↓</span>
           </a>
-          <a href="/Jayasooriya_Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn-resume">
+          <a href="${import.meta.env.BASE_URL}Jayasooriya_Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn-resume">
             <span>RESUME</span>
             <span aria-hidden="true">📄</span>
           </a>
@@ -217,7 +217,7 @@ export function initPortfolioOverlay(mountEl) {
               <span aria-hidden="true">✉</span>
             </a>
           ` : ''}
-          <a href="/Jayasooriya_Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn-resume">
+          <a href="${import.meta.env.BASE_URL}Jayasooriya_Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn-resume">
             <span>VIEW RESUME</span>
             <span aria-hidden="true">📄</span>
           </a>
