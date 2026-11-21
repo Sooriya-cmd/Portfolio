@@ -77,7 +77,7 @@ export function createLedDotTexture({ pattern = 'heart', color = '#FF334B', bgCo
 export function createTrafficSignal() {
   const signalGroup = new THREE.Group();
 
-  const bodyGeo = new THREE.BoxGeometry(2.4, 0.9, 0.45);
+  const bodyGeo = new THREE.BoxGeometry(2.3, 0.82, 0.36);
   const bodyMat = new THREE.MeshStandardMaterial({
     color: new THREE.Color(THEME.colors.signalHousingYellow),
     roughness: 0.35,
@@ -126,7 +126,7 @@ export function createTrafficSignal() {
 export function createJackpotSignal() {
   const jackpotGroup = new THREE.Group();
 
-  const housingGeo = new THREE.BoxGeometry(0.85, 2.4, 0.45);
+  const housingGeo = new THREE.BoxGeometry(0.8, 2.3, 0.38);
   const housingMat = new THREE.MeshStandardMaterial({
     color: new THREE.Color(THEME.colors.signalHousingYellow),
     roughness: 0.35
@@ -135,21 +135,21 @@ export function createJackpotSignal() {
   jackpotGroup.add(housing);
 
   // Pedestrian Push Button Box (Screenshot 11)
-  const pushBoxGeo = new THREE.BoxGeometry(0.55, 0.85, 0.35);
+  const pushBoxGeo = new THREE.BoxGeometry(0.48, 0.75, 0.28);
   const pushBoxMat = new THREE.MeshStandardMaterial({ color: 0xF1C40F, roughness: 0.4 });
   const pushBox = new THREE.Mesh(pushBoxGeo, pushBoxMat);
-  pushBox.position.set(-0.85, -0.6, 0);
+  pushBox.position.set(-0.75, -0.6, 0);
   jackpotGroup.add(pushBox);
 
   // Glowing Orange Button Ring
-  const btnRingGeo = new THREE.TorusGeometry(0.14, 0.04, 12, 24);
+  const btnRingGeo = new THREE.TorusGeometry(0.12, 0.035, 12, 24);
   const btnRingMat = new THREE.MeshStandardMaterial({
     color: 0xFF5500,
     emissive: 0xFF5500,
     emissiveIntensity: 0.8
   });
   const btnRing = new THREE.Mesh(btnRingGeo, btnRingMat);
-  btnRing.position.set(-0.85, -0.65, 0.18);
+  btnRing.position.set(-0.75, -0.65, 0.15);
   jackpotGroup.add(btnRing);
 
   // Lenses with dynamic slot icons
@@ -185,8 +185,8 @@ export function createJackpotSignal() {
 export function createSnakeArcadeBox() {
   const arcadeGroup = new THREE.Group();
 
-  // Pink enclosure box (Screenshot 13-16)
-  const boxGeo = new THREE.BoxGeometry(1.5, 1.1, 0.5);
+  // Pink enclosure box (Screenshot 13-16) - streamlined dimensions
+  const boxGeo = new THREE.BoxGeometry(1.35, 1.0, 0.38);
   const boxMat = new THREE.MeshStandardMaterial({ color: 0xE84393, roughness: 0.35 });
   const box = new THREE.Mesh(boxGeo, boxMat);
   arcadeGroup.add(box);
@@ -198,10 +198,10 @@ export function createSnakeArcadeBox() {
   const ctx = screenCanvas.getContext('2d');
   const screenTexture = new THREE.CanvasTexture(screenCanvas);
 
-  const screenGeo = new THREE.PlaneGeometry(1.2, 0.85);
+  const screenGeo = new THREE.PlaneGeometry(1.15, 0.8);
   const screenMat = new THREE.MeshBasicMaterial({ map: screenTexture });
   const screenMesh = new THREE.Mesh(screenGeo, screenMat);
-  screenMesh.position.set(0, 0, 0.26);
+  screenMesh.position.set(0, 0, 0.20);
   arcadeGroup.add(screenMesh);
 
   // Snake game internal state

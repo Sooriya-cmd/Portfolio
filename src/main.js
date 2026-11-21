@@ -224,9 +224,64 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
+/**
+ * Eye tracking for JIU mascot (bottom-left guide)
+ */
+function initJiuEyeTracking() {
+  const eyeLeft = document.querySelector('#guide-container .mascot-eye.left');
+  const eyeRight = document.querySelector('#guide-container .mascot-eye.right');
+  const pupilLeft = eyeLeft ? eyeLeft.querySelector('.mascot-pupil') : null;
+  const pupilRight = eyeRight ? eyeRight.querySelector('.mascot-pupil') : null;
+  if (!pupilLeft || !pupilRight) return;
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let curLX = 0, curLY = 0;
+  let curRX = 0, curRY = 0;
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  }, { passive: true });
+
+  function step() {
+    if (eyeLeft && pupilLeft) {
+      const rect = eyeLeft.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = mouseX - cx;
+      const dy = mouseY - cy;
+      const angle = Math.atan2(dy, dx);
+      const dist = Math.min(Math.hypot(dx, dy) * 0.04, 2.2);
+      const tx = Math.cos(angle) * dist;
+      const ty = Math.sin(angle) * (dist * 1.2);
+      curLX += (tx - curLX) * 0.15;
+      curLY += (ty - curLY) * 0.15;
+      pupilLeft.style.transform = `translate(${curLX.toFixed(2)}px, ${curLY.toFixed(2)}px)`;
+    }
+    if (eyeRight && pupilRight) {
+      const rect = eyeRight.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = mouseX - cx;
+      const dy = mouseY - cy;
+      const angle = Math.atan2(dy, dx);
+      const dist = Math.min(Math.hypot(dx, dy) * 0.04, 2.2);
+      const tx = Math.cos(angle) * dist;
+      const ty = Math.sin(angle) * (dist * 1.2);
+      curRX += (tx - curRX) * 0.15;
+      curRY += (ty - curRY) * 0.15;
+      pupilRight.style.transform = `translate(${curRX.toFixed(2)}px, ${curRY.toFixed(2)}px)`;
+    }
+    requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
 // 1. Kick off UI rendering and Accessibility
 initMetadata();
 initAccessibility();
+initJiuEyeTracking();
 const hasWebGL = checkWebGLSupport();
 
 if (!hasWebGL) {

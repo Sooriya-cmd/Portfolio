@@ -5,6 +5,7 @@
 import * as THREE from 'three';
 import { CameraRig } from './cameraRig.js';
 import { World } from './world.js';
+import { initBirdRaycasting } from './birds.js';
 import { THEME } from '../config/theme.js';
 
 export function createScene(container) {
@@ -39,6 +40,7 @@ export function createScene(container) {
   // Subsystems
   const cameraRig = new CameraRig(camera);
   const world = new World(scene);
+  initBirdRaycasting(world.birds, camera);
 
   // Animation Loop State
   let animationFrameId = null;

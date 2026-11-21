@@ -23,9 +23,9 @@ export const CAMERA_PATH_POINTS = [
   new THREE.Vector3(0.3, 0.5, 8.8),     // 0.12 About
   new THREE.Vector3(0.5, -1.8, 8.5),    // 0.21 Skills
   new THREE.Vector3(0.4, -4.2, 8.2),    // 0.30 Experience
-  new THREE.Vector3(0.2, -7.0, 8.0),    // 0.40 Projects (Start)
-  new THREE.Vector3(0.1, -11.5, 8.0),   // 0.55 Projects (Mid)
-  new THREE.Vector3(0.2, -16.0, 8.0),   // 0.70 Projects (End)
+  new THREE.Vector3(0.2, -7.0, 8.0),    // 0.40 Projects (Start - MemoryBreaker)
+  new THREE.Vector3(0.1, -11.5, 8.0),   // 0.55 Projects (Mid - Nova-Notes)
+  new THREE.Vector3(0.2, -16.0, 8.0),   // 0.70 Projects (End - ClubHub)
   new THREE.Vector3(0.4, -19.2, 8.2),   // 0.80 More Projects
   new THREE.Vector3(0.5, -22.5, 8.5),   // 0.88 Contact
   new THREE.Vector3(0.0, -25.8, 8.8)    // 1.00 The End
@@ -50,7 +50,7 @@ export const CAMERA_LOOK_POINTS = [
 export const cameraPositionCurve = new THREE.CatmullRomCurve3(CAMERA_PATH_POINTS);
 export const cameraLookCurve = new THREE.CatmullRomCurve3(CAMERA_LOOK_POINTS);
 
-export function getProjectRange(index, total = 8) {
+export function getProjectRange(index, total = 3) {
   const span = CHAPTER_RANGES.projects.end - CHAPTER_RANGES.projects.start;
   const step = span / total;
   const start = CHAPTER_RANGES.projects.start + index * step;

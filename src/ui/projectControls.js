@@ -1,5 +1,5 @@
 /**
- * projectControls.js — Single-Project Showcase Carousel & Navigation Controls
+ * projectControls.js — 3-Project Showcase Carousel & Navigation Controls
  */
 
 import content from '../config/content.json';
@@ -28,14 +28,14 @@ export class ProjectShowcase {
         </div>
 
         <div class="project-showcase-content">
-          <h3 id="proj-title" class="panel-title">WAVE SHADERS</h3>
-          <p id="proj-tagline" class="panel-subtitle">Real-time procedural surface displacement</p>
+          <h3 id="proj-title" class="panel-title">${this.projects[0]?.title || ''}</h3>
+          <p id="proj-tagline" class="panel-subtitle">${this.projects[0]?.tagline || ''}</p>
           
           <div class="project-media-frame">
             <img id="proj-image" src="${this.projects[0]?.image || ''}" alt="${this.projects[0]?.imageAlt || ''}" />
           </div>
 
-          <p id="proj-desc" class="panel-body">Project description...</p>
+          <p id="proj-desc" class="panel-body">${this.projects[0]?.description || ''}</p>
 
           <div id="proj-tags" class="tag-list"></div>
 
@@ -95,18 +95,18 @@ export class ProjectShowcase {
 
     if (this.linksEl) {
       let buttonsHtml = '';
-      if (proj.links && proj.links.live) {
+      if (proj.links && proj.links.repo) {
         buttonsHtml += `
-          <a href="${proj.links.live}" target="_blank" rel="noopener noreferrer" class="btn-primary">
-            <span>LIVE DEMO</span>
+          <a href="${proj.links.repo}" target="_blank" rel="noopener noreferrer" class="btn-primary">
+            <span>VIEW ON GITHUB</span>
             <span aria-hidden="true">↗</span>
           </a>
         `;
       }
-      if (proj.links && proj.links.repo) {
+      if (proj.links && proj.links.live) {
         buttonsHtml += `
-          <a href="${proj.links.repo}" target="_blank" rel="noopener noreferrer" class="btn-secondary">
-            <span>SOURCE CODE</span>
+          <a href="${proj.links.live}" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+            <span>LIVE DEMO</span>
             <span aria-hidden="true">↗</span>
           </a>
         `;
@@ -152,9 +152,8 @@ export class ProjectShowcase {
       });
     }
 
-    // Keyboard navigation (ArrowLeft / ArrowRight) when focus is in project section
+    // Keyboard navigation (ArrowLeft / ArrowRight)
     window.addEventListener('keydown', (e) => {
-      // Only trigger if projects section is in view
       const scrollY = window.scrollY;
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = maxScroll > 0 ? scrollY / maxScroll : 0;

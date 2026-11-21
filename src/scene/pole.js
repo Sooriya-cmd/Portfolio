@@ -147,10 +147,12 @@ function createPoleStickersTexture() {
 /**
  * Reusable Helper: Create a 3D Sign Mesh with text & border
  */
-export function createStreetSign({ text, subtext = '', bgColor, textColor = '#FFFFFF', width = 2.8, height = 0.8, isArrow = false }) {
+export function createStreetSign({ text, subtext = '', bgColor, textColor = '#FFFFFF', width = 2.2, height = 0.7, isArrow = false }) {
   const canvas = document.createElement('canvas');
-  canvas.width = 512;
-  canvas.height = 160;
+  // Match canvas aspect ratio closely to geometry aspect ratio to avoid texture distortion
+  const aspect = width / height;
+  canvas.height = 180;
+  canvas.width = Math.round(180 * aspect);
   const ctx = canvas.getContext('2d');
 
   // Background
@@ -162,18 +164,19 @@ export function createStreetSign({ text, subtext = '', bgColor, textColor = '#FF
   ctx.lineWidth = 10;
   ctx.strokeRect(8, 8, canvas.width - 16, canvas.height - 16);
 
-  // Text
+  // Text with proportional typography matching actual content
   ctx.fillStyle = textColor;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.font = '900 48px "Barlow Condensed", sans-serif';
   
   if (subtext) {
-    ctx.fillText(text, canvas.width / 2, 55);
+    ctx.font = '900 44px "Barlow Condensed", sans-serif';
+    ctx.fillText(text, canvas.width / 2, 54);
     ctx.font = '700 24px "Inter", sans-serif';
     ctx.fillStyle = '#FFD21F';
-    ctx.fillText(subtext, canvas.width / 2, 115);
+    ctx.fillText(subtext, canvas.width / 2, 118);
   } else {
+    ctx.font = '900 48px "Barlow Condensed", sans-serif';
     ctx.fillText(text, canvas.width / 2, canvas.height / 2);
   }
 
@@ -206,7 +209,7 @@ export function createUtilityPole() {
   poleCylinder.position.set(0, -12, 0);
   poleGroup.add(poleCylinder);
 
-  // 2. Collar Rings (Yellow & Green accents)
+  // 2. Collar Rings (Yellow, Green & Pink accents)
   const collarGeo = new THREE.CylinderGeometry(0.44, 0.44, 0.4, 32);
   const yellowCollarMat = new THREE.MeshStandardMaterial({ color: 0xF1C40F, roughness: 0.3 });
   const greenCollarMat = new THREE.MeshStandardMaterial({ color: 0x2ECC71, roughness: 0.3 });
@@ -251,56 +254,114 @@ export function createUtilityPole() {
   strut.rotation.z = Math.PI / 4;
   poleGroup.add(strut);
 
-  // 4. Street Signs at Chapter Milestones
+  // 4. Street Lamp Fixture (Positioned towards the right with generous clearance from boxes & crossbars)
+  const lampGroup = new THREE.Group();
+  
+  // Curved lamp arm extending to the right from the pole (x = +1.15)
+  const armCurve = new THREE.CubicBezierCurve3(
+    new THREE.Vector3(0.35, 4.2, 0),
+    new THREE.Vector3(0.7, 4.4, 0),
+    new THREE.Vector3(1.1, 4.3, 0),
+    new THREE.Vector3(1.2, 3.8, 0)
+  );
+  const armGeo = new THREE.TubeGeometry(armCurve, 16, 0.05, 8, false);
+  const armMesh = new THREE.Mesh(armGeo, crossbarMat);
+  lampGroup.add(armMesh);
+
+  // Diagonal support strut under lamp arm
+  const lampStrutGeo = new THREE.CylinderGeometry(0.03, 0.03, 0.85, 8);
+  const lampStrut = new THREE.Mesh(lampStrutGeo, crossbarMat);
+  lampStrut.position.set(0.65, 3.85, 0);
+  lampStrut.rotation.z = -Math.PI / 4;
+  lampGroup.add(lampStrut);
+
+  // Lamp Bell Hood
+  const hoodGeo = new THREE.ConeGeometry(0.30, 0.26, 16, 1, true);
+  const hoodMat = new THREE.MeshStandardMaterial({ color: 0x2A2A38, roughness: 0.35 });
+  const hood = new THREE.Mesh(hoodGeo, hoodMat);
+  hood.position.set(1.2, 3.75, 0);
+  lampGroup.add(hood);
+
+  // Top cap for hood
+  const capGeo = new THREE.CylinderGeometry(0.08, 0.12, 0.08, 12);
+  const cap = new THREE.Mesh(capGeo, crossbarMat);
+  cap.position.set(1.2, 3.9, 0);
+  lampGroup.add(cap);
+
+  // Glowing Warm Bulb
+  const bulbGeo = new THREE.SphereGeometry(0.11, 16, 12);
+  const bulbMat = new THREE.MeshStandardMaterial({
+    color: 0xFFF0A0,
+    emissive: 0xFFD240,
+    emissiveIntensity: 0.9,
+    roughness: 0.2
+  });
+  const bulb = new THREE.Mesh(bulbGeo, bulbMat);
+  bulb.position.set(1.2, 3.65, 0);
+  lampGroup.add(bulb);
+
+  // Warm Point Light
+  const lampLight = new THREE.PointLight(0xFFE890, 1.2, 8, 1.5);
+  lampLight.position.set(1.2, 3.5, 0.1);
+  lampGroup.add(lampLight);
+
+  poleGroup.add(lampGroup);
+
+  // 5. Street Signs at Chapter Milestones — Tailored dimensions to fit content without excess empty space
+  // Helper to mount sign with horizontal metal bracket rod to pole
+  function attachSignWithBracket(sign, x, y, z, width) {
+    sign.position.set(x, y, z);
+    poleGroup.add(sign);
+
+    const bracketLength = Math.abs(x) + 0.1;
+    const bracketGeo = new THREE.CylinderGeometry(0.03, 0.03, bracketLength, 8);
+    const bracket = new THREE.Mesh(bracketGeo, crossbarMat);
+    bracket.rotation.z = Math.PI / 2;
+    bracket.position.set(x / 2, y, z - 0.05);
+    poleGroup.add(bracket);
+  }
+
   // Milestone: About (y ≈ 0.6)
   const aboutSign = createStreetSign({
     text: 'ⓘ ABOUT',
     subtext: '📍 YOU ARE HERE',
     bgColor: '#1E56D0',
-    width: 2.8,
-    height: 1.0
+    width: 2.2,
+    height: 0.75
   });
-  aboutSign.position.set(-1.6, 0.6, 0.3);
-  poleGroup.add(aboutSign);
+  attachSignWithBracket(aboutSign, -1.3, 0.6, 0.35, 2.2);
 
   // Milestone: Skills Street Names (y ≈ -1.8 to -3.0)
-  const blenderSign = createStreetSign({ text: 'BLENDER ST.', bgColor: '#27AE60', width: 2.2, height: 0.45 });
-  blenderSign.position.set(-1.4, -1.8, 0.3);
-  poleGroup.add(blenderSign);
+  const blenderSign = createStreetSign({ text: 'BLENDER ST.', bgColor: '#27AE60', width: 1.7, height: 0.38 });
+  attachSignWithBracket(blenderSign, -1.1, -1.8, 0.35, 1.7);
 
-  const threeSign = createStreetSign({ text: 'THREE.JS AV.', bgColor: '#FFFFFF', textColor: '#11111E', width: 2.2, height: 0.45 });
-  threeSign.position.set(-1.4, -2.35, 0.3);
-  poleGroup.add(threeSign);
+  const threeSign = createStreetSign({ text: 'THREE.JS AV.', bgColor: '#FFFFFF', textColor: '#11111E', width: 1.7, height: 0.38 });
+  attachSignWithBracket(threeSign, -1.1, -2.3, 0.35, 1.7);
 
-  const shaderSign = createStreetSign({ text: 'SHADER ALLEY', bgColor: '#8E44AD', width: 2.2, height: 0.45 });
-  shaderSign.position.set(-1.4, -2.9, 0.3);
-  poleGroup.add(shaderSign);
+  const shaderSign = createStreetSign({ text: 'SHADER ALLEY', bgColor: '#8E44AD', width: 1.8, height: 0.38 });
+  attachSignWithBracket(shaderSign, -1.1, -2.8, 0.35, 1.8);
 
   // Milestone: Experience Bus Stop (y ≈ -4.5)
-  const expSign = createStreetSign({ text: 'EXPERIENCE BUS', subtext: 'ROUTE 100 → NE', bgColor: '#0F8A5F', width: 2.6, height: 0.9 });
-  expSign.position.set(-1.5, -4.5, 0.3);
-  poleGroup.add(expSign);
+  const expSign = createStreetSign({ text: 'EXPERIENCE BUS', subtext: 'ROUTE 100 → NE', bgColor: '#0F8A5F', width: 2.2, height: 0.72 });
+  attachSignWithBracket(expSign, -1.3, -4.5, 0.35, 2.2);
 
   // Milestone: Projects Arrow Sign (y ≈ -6.8)
-  const projSign = createStreetSign({ text: 'PROJECTS 🠗', bgColor: '#F39C12', width: 2.8, height: 0.7 });
-  projSign.position.set(-1.6, -6.8, 0.3);
-  poleGroup.add(projSign);
+  const projSign = createStreetSign({ text: 'PROJECTS 🠗', bgColor: '#F39C12', width: 2.0, height: 0.55 });
+  attachSignWithBracket(projSign, -1.3, -6.8, 0.35, 2.0);
 
   // Milestone: More Projects ArtStation Sign (y ≈ -19.2)
-  const artstationSign = createStreetSign({ text: 'ARTSTATION ➔', bgColor: '#131A26', textColor: '#00F0FF', width: 2.4, height: 0.5 });
-  artstationSign.position.set(-1.4, -19.2, 0.3);
-  poleGroup.add(artstationSign);
+  const artstationSign = createStreetSign({ text: 'ARTSTATION ➔', bgColor: '#131A26', textColor: '#00F0FF', width: 1.8, height: 0.42 });
+  attachSignWithBracket(artstationSign, -1.1, -19.2, 0.35, 1.8);
 
   // Milestone: Contacts Signs (y ≈ -22.5)
-  const contactSign = createStreetSign({ text: 'CONTACTS / SAY HI 🠗', bgColor: '#FFFFFF', textColor: '#11111E', width: 2.6, height: 0.6 });
-  contactSign.position.set(-1.5, -22.5, 0.3);
-  poleGroup.add(contactSign);
+  const contactSign = createStreetSign({ text: 'CONTACTS / SAY HI 🠗', bgColor: '#FFFFFF', textColor: '#11111E', width: 2.2, height: 0.50 });
+  attachSignWithBracket(contactSign, -1.3, -22.5, 0.35, 2.2);
 
   // Mailbox prop on pole at contacts
-  const mailboxGeo = new THREE.BoxGeometry(0.8, 0.9, 0.6);
+  const mailboxGeo = new THREE.BoxGeometry(0.6, 0.7, 0.45);
   const mailboxMat = new THREE.MeshStandardMaterial({ color: 0x1E56D0, roughness: 0.3 });
   const mailbox = new THREE.Mesh(mailboxGeo, mailboxMat);
-  mailbox.position.set(-0.8, -23.5, 0.2);
+  mailbox.position.set(-0.6, -23.5, 0.25);
   poleGroup.add(mailbox);
 
   // Position whole pole assembly at the right anchor x = 3.6
