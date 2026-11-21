@@ -46,12 +46,12 @@ export function initEntryScreen({ onEnter3D }) {
   const eyeLeft = document.getElementById('entry-eye-left');
   const eyeRight = document.getElementById('entry-eye-right');
 
-  // Smooth pop-up animation for speech bubble
+  // Smooth pop-up entrance animation for speech bubble (Requirement 7)
   if (hiBubble) {
     gsap.fromTo(
       hiBubble,
-      { scale: 0, opacity: 0, y: 15 },
-      { scale: 1, opacity: 1, y: 0, duration: 0.65, delay: 0.35, ease: 'back.out(2)' }
+      { scale: 0.75, opacity: 0, y: 10 },
+      { scale: 1, opacity: 1, y: 0, duration: 0.55, delay: 0.3, ease: 'back.out(1.4)' }
     );
   }
 

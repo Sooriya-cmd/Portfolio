@@ -229,15 +229,17 @@ export function createBird({
         }
       }
 
-      // 2. Idle State (Breathing bobbing, head tilt, and blinking)
-      const bob = Math.sin(time * 2.2 + idlePhase) * 0.02;
+      // 2. Idle State (Natural breathing bobbing, head tilt, and irregular blinking)
+      const bob = Math.sin(time * 2.0 + idlePhase) * 0.018;
       bird.position.y = bird.userData.initialY + bob;
 
-      bird.rotation.z = Math.sin(time * 1.4 + idlePhase) * 0.025;
+      bird.rotation.z = Math.sin(time * 1.3 + idlePhase) * 0.02;
+      bird.rotation.x = Math.sin(time * 1.0 + idlePhase) * 0.015;
 
-      // Periodic blink (every ~4 seconds)
-      const blinkCycle = (time + idlePhase) % 4.0;
-      if (blinkCycle < 0.15) {
+      // Natural blink at irregular intervals per bird (Requirement 9)
+      const blinkCycle = 3.2 + (index % 5) * 0.8;
+      const phase = (time + idlePhase) % blinkCycle;
+      if (phase < 0.12) {
         leftEye.scale.y = 0.1;
         rightEye.scale.y = 0.1;
       } else {
@@ -266,23 +268,23 @@ export function triggerBirdFlight(bird) {
 export function populateSceneBirds(worldGroup) {
   const birdsList = [];
 
-  // 1. The 7 Birds on Hero Crossbar (Crossbar spans x = -0.3 to 3.9 in world space)
-  // Evenly spaced at delta-x = 0.55 with scale 0.82 to guarantee a clear gap of ~0.15 between wings
+  // 1. The 7 Birds on Hero Crossbar (Crossbar centered at x ≈ 2.55, y = 3.32)
+  // Evenly spaced at delta-x ≈ 0.60 with scale 0.78 to guarantee a clear gap of ~0.25 between wings
   const heroCrossbarY = 3.32;
   const heroBirdsConfig = [
-    { x: 0.15, accessory: 'none' },
-    { x: 0.70, accessory: 'black-cap' },
-    { x: 1.25, accessory: 'blue-cap' },
-    { x: 1.80, accessory: 'sunglasses' },
-    { x: 2.35, accessory: 'none' },
-    { x: 2.90, accessory: 'sunglasses' },
-    { x: 3.45, accessory: 'lavender-hat' }
+    { x: 0.75, accessory: 'none' },
+    { x: 1.35, accessory: 'black-cap' },
+    { x: 1.95, accessory: 'blue-cap' },
+    { x: 2.55, accessory: 'sunglasses' },
+    { x: 3.15, accessory: 'none' },
+    { x: 3.75, accessory: 'sunglasses' },
+    { x: 4.30, accessory: 'lavender-hat' }
   ];
 
   heroBirdsConfig.forEach((cfg, idx) => {
     const bird = createBird({
       accessory: cfg.accessory,
-      scale: 0.82,
+      scale: 0.78,
       idlePhase: idx * 0.7,
       index: idx
     });
@@ -295,13 +297,13 @@ export function populateSceneBirds(worldGroup) {
 
   // 2. Two Birds on ABOUT Highway Sign (y ≈ 1.12, delta-x = 0.65)
   const aboutBirds = [
-    { x: 2.15, y: 1.12, accessory: 'sunglasses' },
-    { x: 2.80, y: 1.12, accessory: 'none' }
+    { x: 2.55, y: 1.12, accessory: 'sunglasses' },
+    { x: 3.20, y: 1.12, accessory: 'none' }
   ];
   aboutBirds.forEach((b, i) => {
     const bird = createBird({
       accessory: b.accessory,
-      scale: 0.78,
+      scale: 0.75,
       idlePhase: i + 2.0,
       index: 7 + i
     });
@@ -314,15 +316,15 @@ export function populateSceneBirds(worldGroup) {
 
   // 3. Four Birds on PROJECTS Arrow Sign (y ≈ -6.42, delta-x = 0.55)
   const projBirds = [
-    { x: 1.20, y: -6.42, accessory: 'party-hat' },
-    { x: 1.75, y: -6.42, accessory: 'blue-cap' },
-    { x: 2.30, y: -6.42, accessory: 'none' },
-    { x: 2.85, y: -6.42, accessory: 'sunglasses' }
+    { x: 2.10, y: -6.42, accessory: 'party-hat' },
+    { x: 2.65, y: -6.42, accessory: 'blue-cap' },
+    { x: 3.20, y: -6.42, accessory: 'none' },
+    { x: 3.75, y: -6.42, accessory: 'sunglasses' }
   ];
   projBirds.forEach((b, i) => {
     const bird = createBird({
       accessory: b.accessory,
-      scale: 0.78,
+      scale: 0.75,
       idlePhase: i * 0.8,
       index: 9 + i
     });
@@ -333,16 +335,16 @@ export function populateSceneBirds(worldGroup) {
     birdsList.push(bird);
   });
 
-  // 4. Three Birds on Contacts Sign (y ≈ -22.18, delta-x = 0.60)
+  // 4. Three Birds on Contacts Sign (y ≈ -22.18, delta-x = 0.55; clear of pole at x = 4.35)
   const contactBirds = [
-    { x: 2.05, y: -22.18, accessory: 'none' },
-    { x: 2.65, y: -22.18, accessory: 'sunglasses' },
-    { x: 3.25, y: -22.18, accessory: 'lavender-hat' }
+    { x: 2.25, y: -22.18, accessory: 'none' },
+    { x: 2.80, y: -22.18, accessory: 'sunglasses' },
+    { x: 3.35, y: -22.18, accessory: 'lavender-hat' }
   ];
   contactBirds.forEach((b, i) => {
     const bird = createBird({
       accessory: b.accessory,
-      scale: 0.78,
+      scale: 0.75,
       idlePhase: i * 0.9,
       index: 13 + i
     });
@@ -355,14 +357,14 @@ export function populateSceneBirds(worldGroup) {
 
   // 5. Three Birds at the Finale Night Party (y ≈ -24.8, delta-x = 0.70)
   const finaleBirds = [
-    { x: 1.60, y: -24.8, accessory: 'sunglasses' },
-    { x: 2.30, y: -24.8, accessory: 'none' },
-    { x: 3.00, y: -24.8, accessory: 'party-hat' }
+    { x: 1.80, y: -24.8, accessory: 'sunglasses' },
+    { x: 2.50, y: -24.8, accessory: 'none' },
+    { x: 3.20, y: -24.8, accessory: 'party-hat' }
   ];
   finaleBirds.forEach((b, i) => {
     const bird = createBird({
       accessory: b.accessory,
-      scale: 0.78,
+      scale: 0.75,
       idlePhase: i * 1.1,
       index: 16 + i
     });

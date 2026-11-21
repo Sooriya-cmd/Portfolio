@@ -82,7 +82,7 @@ export function initPortfolioOverlay(mountEl) {
         <!-- Categorized Skills -->
         <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 20px;">
           ${content.skills.categories.map(cat => `
-            <div style="background: #FFFFFF; border: var(--border-medium); border-radius: var(--radius-sm); padding: 14px 18px; box-shadow: 2px 2px 0px var(--color-panel-border);">
+            <div class="skill-category-box" style="background: #FFFFFF; border: var(--border-medium); border-radius: var(--radius-sm); padding: 14px 18px; box-shadow: 2px 2px 0px var(--color-panel-border);">
               <div style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 900; color: #3158DF; margin-bottom: 8px;">
                 ${escapeHtml(cat.name)}
               </div>
@@ -129,21 +129,21 @@ export function initPortfolioOverlay(mountEl) {
         <div style="margin-top: 28px;">
           <h3 style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 900; color: #11111E; margin-bottom: 12px;">ACHIEVEMENTS & COURSES</h3>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px;">
-            <div style="background: #FFFFFF; border: var(--border-medium); border-radius: var(--radius-sm); padding: 16px; box-shadow: 2px 2px 0px var(--color-panel-border);">
+            <div class="achievement-box" style="background: #FFFFFF; border: var(--border-medium); border-radius: var(--radius-sm); padding: 16px; box-shadow: 2px 2px 0px var(--color-panel-border);">
               <h5 style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 900; color: #FF4F92; margin-bottom: 8px;">ACADEMIC RECOGNITION</h5>
               <ul style="padding-left: 18px; font-size: 0.95rem; line-height: 1.5; color: var(--color-text-secondary);">
                 ${content.achievements.academic.map(a => `<li>${escapeHtml(a)}</li>`).join('')}
               </ul>
             </div>
 
-            <div style="background: #FFFFFF; border: var(--border-medium); border-radius: var(--radius-sm); padding: 16px; box-shadow: 2px 2px 0px var(--color-panel-border);">
+            <div class="achievement-box" style="background: #FFFFFF; border: var(--border-medium); border-radius: var(--radius-sm); padding: 16px; box-shadow: 2px 2px 0px var(--color-panel-border);">
               <h5 style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 900; color: #3158DF; margin-bottom: 8px;">NPTEL CERTIFICATIONS</h5>
               <ul style="padding-left: 18px; font-size: 0.95rem; line-height: 1.5; color: var(--color-text-secondary);">
                 ${content.achievements.nptel.map(n => `<li>${escapeHtml(n)}</li>`).join('')}
               </ul>
             </div>
 
-            <div style="background: #FFFFFF; border: var(--border-medium); border-radius: var(--radius-sm); padding: 16px; box-shadow: 2px 2px 0px var(--color-panel-border);">
+            <div class="achievement-box" style="background: #FFFFFF; border: var(--border-medium); border-radius: var(--radius-sm); padding: 16px; box-shadow: 2px 2px 0px var(--color-panel-border);">
               <h5 style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 900; color: #28E070; margin-bottom: 8px;">TECHNICAL PARTICIPATION</h5>
               <ul style="padding-left: 18px; font-size: 0.95rem; line-height: 1.5; color: var(--color-text-secondary);">
                 ${content.achievements.participation.map(p => `<li>${escapeHtml(p)}</li>`).join('')}

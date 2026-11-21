@@ -49,9 +49,9 @@ export class World {
     this.trafficSignal.position.set(1.8, 2.3, 0.1);
     this.group.add(this.trafficSignal);
 
-    // 3. Jackpot Signal at More Projects milestone (x ≈ 2.2, y ≈ -19.0)
+    // 3. Jackpot Signal at More Projects milestone (x ≈ 2.0, y ≈ -17.8; well separated from artstationSign at y = -19.6)
     this.jackpotSignal = createJackpotSignal();
-    this.jackpotSignal.position.set(2.2, -19.0, 0.2);
+    this.jackpotSignal.position.set(2.0, -17.8, 0.2);
     this.group.add(this.jackpotSignal);
 
     // 4. Snake Arcade Box at Contacts milestone (x ≈ 1.8, y ≈ -22.5)
@@ -90,6 +90,21 @@ export class World {
           bird.userData.update(elapsedTime);
         }
       });
+    }
+
+    // Update traffic signal LED pulses
+    if (this.trafficSignal && this.trafficSignal.userData && this.trafficSignal.userData.update) {
+      this.trafficSignal.userData.update(elapsedTime);
+    }
+
+    // Update Jackpot signal pulses
+    if (this.jackpotSignal && this.jackpotSignal.userData && this.jackpotSignal.userData.update) {
+      this.jackpotSignal.userData.update(elapsedTime);
+    }
+
+    // Update Pole street lamp warm glow & signs micro-settling
+    if (this.pole && this.pole.userData && this.pole.userData.update) {
+      this.pole.userData.update(elapsedTime, progress);
     }
 
     // Update Snake arcade screen

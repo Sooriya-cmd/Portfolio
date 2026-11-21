@@ -308,16 +308,22 @@ export function createUtilityPole() {
   poleGroup.add(lampGroup);
 
   // 5. Street Signs at Chapter Milestones — Tailored dimensions to fit content without excess empty space
-  // Helper to mount sign with horizontal metal bracket rod to pole
-  function attachSignWithBracket(sign, x, y, z, width) {
+  // Helper to mount sign with horizontal metal bracket rod to pole cleanly without penetrating pole
+  const signsList = [];
+  function attachSignWithBracket(sign, x, y, z, width, idx = 0) {
     sign.position.set(x, y, z);
+    sign.userData.basePosY = y;
+    sign.userData.swayPhase = idx * 0.8;
     poleGroup.add(sign);
+    signsList.push(sign);
 
-    const bracketLength = Math.abs(x) + 0.1;
-    const bracketGeo = new THREE.CylinderGeometry(0.03, 0.03, bracketLength, 8);
+    // Bracket rod extending from sign back to pole collar
+    const poleSurfaceX = -0.40;
+    const bracketLen = Math.abs(poleSurfaceX - x);
+    const bracketGeo = new THREE.CylinderGeometry(0.025, 0.025, bracketLen, 8);
     const bracket = new THREE.Mesh(bracketGeo, crossbarMat);
     bracket.rotation.z = Math.PI / 2;
-    bracket.position.set(x / 2, y, z - 0.05);
+    bracket.position.set(x + bracketLen / 2, y, z - 0.04);
     poleGroup.add(bracket);
   }
 
@@ -326,46 +332,66 @@ export function createUtilityPole() {
     text: 'ⓘ ABOUT',
     subtext: '📍 YOU ARE HERE',
     bgColor: '#1E56D0',
-    width: 2.2,
-    height: 0.75
+    width: 2.0,
+    height: 0.72
   });
-  attachSignWithBracket(aboutSign, -1.3, 0.6, 0.35, 2.2);
+  attachSignWithBracket(aboutSign, -1.45, 0.6, 0.35, 2.0, 0);
 
-  // Milestone: Skills Street Names (y ≈ -1.8 to -3.0)
-  const blenderSign = createStreetSign({ text: 'BLENDER ST.', bgColor: '#27AE60', width: 1.7, height: 0.38 });
-  attachSignWithBracket(blenderSign, -1.1, -1.8, 0.35, 1.7);
+  // Milestone: Skills Street Names (BLENDER ST., THREE.JS AV., SHADER ALLEY)
+  // Perfectly spaced at delta-y = 0.50 with width 1.6 to prevent pole penetration
+  const blenderSign = createStreetSign({ text: 'BLENDER ST.', bgColor: '#27AE60', width: 1.6, height: 0.38 });
+  attachSignWithBracket(blenderSign, -1.35, -1.70, 0.35, 1.6, 1);
 
-  const threeSign = createStreetSign({ text: 'THREE.JS AV.', bgColor: '#FFFFFF', textColor: '#11111E', width: 1.7, height: 0.38 });
-  attachSignWithBracket(threeSign, -1.1, -2.3, 0.35, 1.7);
+  const threeSign = createStreetSign({ text: 'THREE.JS AV.', bgColor: '#FFFFFF', textColor: '#11111E', width: 1.6, height: 0.38 });
+  attachSignWithBracket(threeSign, -1.35, -2.20, 0.35, 1.6, 2);
 
-  const shaderSign = createStreetSign({ text: 'SHADER ALLEY', bgColor: '#8E44AD', width: 1.8, height: 0.38 });
-  attachSignWithBracket(shaderSign, -1.1, -2.8, 0.35, 1.8);
+  const shaderSign = createStreetSign({ text: 'SHADER ALLEY', bgColor: '#8E44AD', width: 1.6, height: 0.38 });
+  attachSignWithBracket(shaderSign, -1.35, -2.70, 0.35, 1.6, 3);
 
   // Milestone: Experience Bus Stop (y ≈ -4.5)
-  const expSign = createStreetSign({ text: 'EXPERIENCE BUS', subtext: 'ROUTE 100 → NE', bgColor: '#0F8A5F', width: 2.2, height: 0.72 });
-  attachSignWithBracket(expSign, -1.3, -4.5, 0.35, 2.2);
+  const expSign = createStreetSign({ text: 'EXPERIENCE BUS', subtext: 'ROUTE 100 → NE', bgColor: '#0F8A5F', width: 2.1, height: 0.70 });
+  attachSignWithBracket(expSign, -1.45, -4.50, 0.35, 2.1, 4);
 
   // Milestone: Projects Arrow Sign (y ≈ -6.8)
-  const projSign = createStreetSign({ text: 'PROJECTS 🠗', bgColor: '#F39C12', width: 2.0, height: 0.55 });
-  attachSignWithBracket(projSign, -1.3, -6.8, 0.35, 2.0);
+  const projSign = createStreetSign({ text: 'PROJECTS 🠗', bgColor: '#F39C12', width: 1.9, height: 0.55 });
+  attachSignWithBracket(projSign, -1.40, -6.80, 0.35, 1.9, 5);
 
-  // Milestone: More Projects ArtStation Sign (y ≈ -19.2)
-  const artstationSign = createStreetSign({ text: 'ARTSTATION ➔', bgColor: '#131A26', textColor: '#00F0FF', width: 1.8, height: 0.42 });
-  attachSignWithBracket(artstationSign, -1.1, -19.2, 0.35, 1.8);
+  // Milestone: More Projects ArtStation Sign (y ≈ -19.6; well clear of jackpot signal at y = -17.8)
+  const artstationSign = createStreetSign({ text: 'ARTSTATION ➔', bgColor: '#131A26', textColor: '#00F0FF', width: 1.7, height: 0.42 });
+  attachSignWithBracket(artstationSign, -1.35, -19.60, 0.35, 1.7, 6);
 
   // Milestone: Contacts Signs (y ≈ -22.5)
-  const contactSign = createStreetSign({ text: 'CONTACTS / SAY HI 🠗', bgColor: '#FFFFFF', textColor: '#11111E', width: 2.2, height: 0.50 });
-  attachSignWithBracket(contactSign, -1.3, -22.5, 0.35, 2.2);
+  const contactSign = createStreetSign({ text: 'CONTACTS / SAY HI 🠗', bgColor: '#FFFFFF', textColor: '#11111E', width: 2.0, height: 0.50 });
+  attachSignWithBracket(contactSign, -1.45, -22.50, 0.35, 2.0, 7);
 
   // Mailbox prop on pole at contacts
-  const mailboxGeo = new THREE.BoxGeometry(0.6, 0.7, 0.45);
+  const mailboxGeo = new THREE.BoxGeometry(0.55, 0.65, 0.40);
   const mailboxMat = new THREE.MeshStandardMaterial({ color: 0x1E56D0, roughness: 0.3 });
   const mailbox = new THREE.Mesh(mailboxGeo, mailboxMat);
-  mailbox.position.set(-0.6, -23.5, 0.25);
+  mailbox.position.set(-0.65, -23.5, 0.25);
   poleGroup.add(mailbox);
 
-  // Position whole pole assembly at the right anchor x = 3.6
-  poleGroup.position.set(3.6, 0, 0);
+  // Position whole pole assembly towards the right anchor x = 4.35 (Requirement 3: Street lamp & pole moved right)
+  poleGroup.position.set(4.35, 0, 0);
+
+  // Micro-animations for street lamp and physical suspended signboards (Requirement 9)
+  poleGroup.userData = {
+    update: (time) => {
+      // Warm glow breathing variation on street lamp bulb and point light
+      if (lampLight && bulb) {
+        lampLight.intensity = 1.15 + Math.sin(time * 2.2) * 0.15;
+        bulbMat.emissiveIntensity = 0.85 + Math.sin(time * 2.2) * 0.12;
+      }
+
+      // Subtle, gentle physical suspension sway on street signs
+      signsList.forEach((s) => {
+        if (s && s.userData && s.userData.basePosY !== undefined) {
+          s.rotation.z = Math.sin(time * 1.3 + s.userData.swayPhase) * 0.015;
+          s.position.y = s.userData.basePosY + Math.sin(time * 1.6 + s.userData.swayPhase) * 0.005;
+        }
+      });
+    }
+  };
 
   return {
     group: poleGroup,

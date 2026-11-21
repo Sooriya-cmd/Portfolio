@@ -88,6 +88,7 @@ export function createTrafficSignal() {
 
   const lensRadius = 0.3;
   const lensSpacing = 0.75;
+  const lensMats = [];
   const lensConfigs = [
     { x: -lensSpacing, pattern: 'heart', color: '#FF334B' },
     { x: 0, pattern: 'smile', color: '#FFD21F' },
@@ -107,6 +108,7 @@ export function createTrafficSignal() {
     lensMesh.rotation.x = Math.PI / 2;
     lensMesh.position.set(cfg.x, 0, 0.22);
     signalGroup.add(lensMesh);
+    lensMats.push(lensMat);
 
     const hoodGeo = new THREE.CylinderGeometry(lensRadius + 0.05, lensRadius + 0.05, 0.2, 16, 1, true, 0, Math.PI);
     const hoodMat = new THREE.MeshStandardMaterial({ color: 0x2A2A38, roughness: 0.5 });
@@ -116,6 +118,14 @@ export function createTrafficSignal() {
     hood.position.set(cfg.x, 0.08, 0.25);
     signalGroup.add(hood);
   });
+
+  signalGroup.userData = {
+    update: (time) => {
+      lensMats.forEach((mat, i) => {
+        mat.emissiveIntensity = 0.45 + Math.sin(time * 1.8 + i * 1.2) * 0.10;
+      });
+    }
+  };
 
   return signalGroup;
 }
@@ -175,6 +185,15 @@ export function createJackpotSignal() {
     jackpotGroup.add(lensMesh);
     lensMeshes.push(lensMesh);
   });
+
+  jackpotGroup.userData = {
+    update: (time) => {
+      lensMeshes.forEach((mesh, i) => {
+        mesh.material.emissiveIntensity = 0.55 + Math.sin(time * 2.2 + i * 0.9) * 0.12;
+      });
+      btnRingMat.emissiveIntensity = 0.75 + Math.sin(time * 3.0) * 0.2;
+    }
+  };
 
   return jackpotGroup;
 }
@@ -312,27 +331,30 @@ export function createFinalePartyProps() {
   suspensionWire.position.set(0, 0.0, 0);
   finaleGroup.add(suspensionWire);
 
-  // 3. Loudspeaker Horn System (BF-07 transformer box + 2 speaker cones)
-  const ampBoxGeo = new THREE.BoxGeometry(1.2, 1.0, 0.6);
+  // 3. Utility Transformer Box (Clean geometry without any piercing cones, Screenshot 5)
+  const ampBoxGeo = new THREE.BoxGeometry(1.1, 0.9, 0.5);
   const ampBoxMat = new THREE.MeshStandardMaterial({ color: 0xF1C40F, roughness: 0.4 });
   const ampBox = new THREE.Mesh(ampBoxGeo, ampBoxMat);
   ampBox.position.set(0, -2.2, 0);
   finaleGroup.add(ampBox);
 
-  // Horn Bell Left
-  const hornGeo = new THREE.ConeGeometry(0.4, 0.7, 16, 1, true);
-  const hornMat = new THREE.MeshStandardMaterial({ color: 0x9B59B6, roughness: 0.35 });
-  
-  const leftHorn = new THREE.Mesh(hornGeo, hornMat);
-  leftHorn.rotation.z = Math.PI / 2;
-  leftHorn.position.set(-0.9, -2.2, 0);
-  finaleGroup.add(leftHorn);
+  // Front service plate on transformer box
+  const plateGeo = new THREE.BoxGeometry(0.85, 0.65, 0.05);
+  const plateMat = new THREE.MeshStandardMaterial({ color: 0x2A2A38, roughness: 0.4 });
+  const plate = new THREE.Mesh(plateGeo, plateMat);
+  plate.position.set(0, -2.2, 0.26);
+  finaleGroup.add(plate);
 
-  // Horn Bell Right
-  const rightHorn = new THREE.Mesh(hornGeo, hornMat);
-  rightHorn.rotation.z = -Math.PI / 2;
-  rightHorn.position.set(0.9, -2.2, 0);
-  finaleGroup.add(rightHorn);
+  // Status Indicator LED on transformer box
+  const statusLedGeo = new THREE.SphereGeometry(0.06, 12, 12);
+  const statusLedMat = new THREE.MeshStandardMaterial({
+    color: 0x28E070,
+    emissive: 0x28E070,
+    emissiveIntensity: 0.8
+  });
+  const statusLed = new THREE.Mesh(statusLedGeo, statusLedMat);
+  statusLed.position.set(0.28, -2.05, 0.29);
+  finaleGroup.add(statusLed);
 
   // Rotation animation hook for disco ball
   finaleGroup.userData = {
