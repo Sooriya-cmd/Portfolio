@@ -23,6 +23,20 @@ export function createScene(container) {
     200
   );
 
+  function updateCameraProjection() {
+    const aspect = window.innerWidth / window.innerHeight;
+    camera.aspect = aspect;
+    if (aspect < 0.8) {
+      // Narrow mobile portrait: increase FOV so utility pole, signs and perched birds stay framed and visible
+      camera.fov = Math.min(62, 45 + (0.8 - aspect) * 32);
+    } else {
+      camera.fov = 45;
+    }
+    camera.updateProjectionMatrix();
+  }
+
+  updateCameraProjection();
+
   // Renderer
   const renderer = new THREE.WebGLRenderer({
     antialias: THEME.quality.antialias,
@@ -64,8 +78,7 @@ export function createScene(container) {
 
   // Resize Listener
   function onResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
+    updateCameraProjection();
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, THEME.quality.maxPixelRatio));
   }

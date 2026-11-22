@@ -1,16 +1,25 @@
 /**
  * entryScreen.js — Circular Entrance Screen with Developer Illustration and Interactive Mascot
+ * Integrated with GradientASCII (eclipse ASCII gradient) and ScrollExpand (circular reveal).
  */
 
 import gsap from 'gsap';
+import { GradientASCII } from '../effects/gradientAscii.js';
+import { CircularScrollExpand } from '../effects/scrollExpand.js';
 
 export function initEntryScreen({ onEnter3D }) {
   let entryEl = document.getElementById('entry-screen');
+  const isMobile = window.innerWidth <= 768;
+  const instructionText = isMobile ? 'SWIPE TO REVEAL ↓' : 'SCROLL TO REVEAL ↓';
+
   if (!entryEl) {
     entryEl = document.createElement('div');
     entryEl.id = 'entry-screen';
     entryEl.className = 'entry-screen-overlay';
     entryEl.innerHTML = `
+      <!-- ASCII Gradient Background Field (Layered Behind Entrance Card) -->
+      <div id="entry-ascii-bg" class="entry-screen-ascii-bg" aria-hidden="true"></div>
+
       <div class="entry-card-wrap">
         <!-- Peeking Mascot Head with Interactive Pupils -->
         <div class="entry-mascot-peek" id="entry-mascot-head" aria-hidden="true">
@@ -26,27 +35,54 @@ export function initEntryScreen({ onEnter3D }) {
           <div class="entry-hi-bubble" id="entry-hi-bubble">hi</div>
         </div>
 
-        <!-- Center Interactive Circular Developer Illustration Frame -->
+        <!-- Center Interactive Circular Developer Illustration Frame (Only p.png, No ASCII Overlay Inside) -->
         <button id="btn-enter-hero" class="entry-circle-btn" aria-label="Enter Jayasooriya's Portfolio">
-          <div class="entry-image-container">
-            <img src="${import.meta.env.BASE_URL}p.png" alt="Jayasooriya Developer Illustration" class="entry-hero-img" />
+          <div class="entry-image-container" id="entry-image-frame">
+            <img src="${import.meta.env.BASE_URL}p.png" alt="Jayasooriya Developer Illustration" class="entry-hero-img" id="entry-hero-img" />
           </div>
           <div class="entry-border-ring cyan"></div>
           <div class="entry-border-ring pink"></div>
         </button>
+
+        <!-- Scroll / Swipe Reveal Instruction -->
+        <div class="scroll-expand-instruction" id="scroll-expand-hint">
+          ${instructionText}
+        </div>
       </div>
     `;
     document.body.appendChild(entryEl);
   }
 
   const btnHero = document.getElementById('btn-enter-hero');
+  const imageFrame = document.getElementById('entry-image-frame');
+  const heroImg = document.getElementById('entry-hero-img');
+  const asciiMount = document.getElementById('entry-ascii-bg');
+  const hintEl = document.getElementById('scroll-expand-hint');
   const hiBubble = document.getElementById('entry-hi-bubble');
   const pupilLeft = document.getElementById('entry-pupil-left');
   const pupilRight = document.getElementById('entry-pupil-right');
   const eyeLeft = document.getElementById('entry-eye-left');
   const eyeRight = document.getElementById('entry-eye-right');
 
-  // Smooth pop-up entrance animation for speech bubble (Requirement 7)
+  // Initialize GradientASCII layered behind the illustration
+  let asciiInstance = null;
+  if (asciiMount) {
+    asciiInstance = new GradientASCII(asciiMount, {
+      colors: ['#3165E0', '#2EE5EF', '#DFD5F5', '#6745A8'],
+      characters: ' .:-=+*#@',
+      cellSize: 18,
+      density: 0.55,
+      glyphOpacity: 0.48,
+      gradientOpacity: 0.22,
+      softness: 0.65,
+      scale: 1.1,
+      flow: 0.2,
+      speed: 0.4,
+      flicker: 0.08
+    });
+  }
+
+  // Smooth pop-up entrance animation for speech bubble
   if (hiBubble) {
     gsap.fromTo(
       hiBubble,
@@ -112,22 +148,26 @@ export function initEntryScreen({ onEnter3D }) {
 
   animId = requestAnimationFrame(updatePupils);
 
-  // Circular Opening Animation when Clicking the Illustration
+  // Transition into 3D Mode
   let isOpening = false;
-  btnHero.addEventListener('click', () => {
+  function triggerEntryTransition() {
     if (isOpening) return;
     isOpening = true;
 
     // Dissolve greeting bubble
     gsap.to(hiBubble, { scale: 0, opacity: 0, duration: 0.25 });
     gsap.to('#entry-mascot-head', { y: -20, opacity: 0, duration: 0.35 });
+    if (hintEl) gsap.to(hintEl, { opacity: 0, duration: 0.25 });
 
-    // Animate the existing circular frame expanding outwards
+    // Animate circular frame expanding outwards
     const tl = gsap.timeline({
       onComplete: () => {
         entryEl.style.display = 'none';
         window.removeEventListener('mousemove', trackMouse);
         if (animId) cancelAnimationFrame(animId);
+        if (asciiInstance) asciiInstance.destroy();
+        if (scrollExpandInstance) scrollExpandInstance.destroy();
+
         document.body.classList.remove('is-2d-mode');
         document.body.classList.add('is-3d-mode');
         if (onEnter3D) onEnter3D();
@@ -162,5 +202,16 @@ export function initEntryScreen({ onEnter3D }) {
       duration: 0.45,
       ease: 'power2.inOut'
     }, '-=0.4');
+  }
+
+  // Initialize CircularScrollExpand (drives circular clip by scroll/swipe)
+  const scrollExpandInstance = new CircularScrollExpand({
+    frameEl: imageFrame,
+    imageEl: heroImg,
+    hintEl: hintEl,
+    onComplete: triggerEntryTransition
   });
+
+  // Clicking the circular button triggers expansion directly
+  btnHero.addEventListener('click', triggerEntryTransition);
 }

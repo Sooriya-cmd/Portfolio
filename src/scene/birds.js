@@ -268,23 +268,23 @@ export function triggerBirdFlight(bird) {
 export function populateSceneBirds(worldGroup) {
   const birdsList = [];
 
-  // 1. The 7 Birds on Hero Crossbar (Symmetrically center-aligned around x = 2.55, y = 3.32)
-  // Perfectly spaced at delta-x = 0.52 with scale 0.78, clear of context box on left and pole on right
-  const heroCrossbarY = 3.32;
+  // 1. The 7 Birds on Hero Crossbar (Symmetrically center-aligned around x = 2.85, y = 3.36)
+  // Evenly spaced so all 7 birds stay clearly visible outside the framed panel
+  const heroCrossbarY = 3.36;
   const heroBirdsConfig = [
-    { x: 0.99, accessory: 'none' },
-    { x: 1.51, accessory: 'black-cap' },
-    { x: 2.03, accessory: 'blue-cap' },
-    { x: 2.55, accessory: 'sunglasses' },
-    { x: 3.07, accessory: 'none' },
-    { x: 3.59, accessory: 'sunglasses' },
-    { x: 4.11, accessory: 'lavender-hat' }
+    { x: 1.60, accessory: 'none' },
+    { x: 2.05, accessory: 'black-cap' },
+    { x: 2.50, accessory: 'blue-cap' },
+    { x: 2.95, accessory: 'sunglasses' },
+    { x: 3.40, accessory: 'none' },
+    { x: 3.85, accessory: 'sunglasses' },
+    { x: 4.25, accessory: 'lavender-hat' }
   ];
 
   heroBirdsConfig.forEach((cfg, idx) => {
     const bird = createBird({
       accessory: cfg.accessory,
-      scale: 0.78,
+      scale: 0.76,
       idlePhase: idx * 0.7,
       index: idx
     });
@@ -297,8 +297,8 @@ export function populateSceneBirds(worldGroup) {
 
   // 2. Two Birds on ABOUT Highway Sign (Symmetrically center-aligned around x = 2.90, y = 1.12)
   const aboutBirds = [
-    { x: 2.62, y: 1.12, accessory: 'sunglasses' },
-    { x: 3.18, y: 1.12, accessory: 'none' }
+    { x: 2.65, y: 1.12, accessory: 'sunglasses' },
+    { x: 3.20, y: 1.12, accessory: 'none' }
   ];
   aboutBirds.forEach((b, i) => {
     const bird = createBird({
@@ -316,10 +316,10 @@ export function populateSceneBirds(worldGroup) {
 
   // 3. Four Birds on PROJECTS Arrow Sign (Symmetrically center-aligned around x = 2.95, y = -6.42)
   const projBirds = [
-    { x: 2.12, y: -6.42, accessory: 'party-hat' },
-    { x: 2.67, y: -6.42, accessory: 'blue-cap' },
-    { x: 3.22, y: -6.42, accessory: 'none' },
-    { x: 3.77, y: -6.42, accessory: 'sunglasses' }
+    { x: 2.20, y: -6.42, accessory: 'party-hat' },
+    { x: 2.70, y: -6.42, accessory: 'blue-cap' },
+    { x: 3.20, y: -6.42, accessory: 'none' },
+    { x: 3.75, y: -6.42, accessory: 'sunglasses' }
   ];
   projBirds.forEach((b, i) => {
     const bird = createBird({
@@ -335,11 +335,11 @@ export function populateSceneBirds(worldGroup) {
     birdsList.push(bird);
   });
 
-  // 4. Three Birds on Contacts Sign (Symmetrically center-aligned around x = 2.90, y = -22.18)
+  // 4. Three Birds on Contacts Sign (Symmetrically center-aligned around x = 3.05, y = -22.18)
   const contactBirds = [
-    { x: 2.35, y: -22.18, accessory: 'none' },
-    { x: 2.90, y: -22.18, accessory: 'sunglasses' },
-    { x: 3.45, y: -22.18, accessory: 'lavender-hat' }
+    { x: 2.55, y: -22.18, accessory: 'none' },
+    { x: 3.05, y: -22.18, accessory: 'sunglasses' },
+    { x: 3.55, y: -22.18, accessory: 'lavender-hat' }
   ];
   contactBirds.forEach((b, i) => {
     const bird = createBird({

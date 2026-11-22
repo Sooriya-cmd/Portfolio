@@ -4,6 +4,7 @@
 
 import content from '../config/content.json';
 import { CHAPTER_RANGES, getProjectRange } from '../config/path.js';
+import { DecryptedText } from '../effects/decryptedText.js';
 import gsap from 'gsap';
 
 function resolveAssetUrl(url) {
@@ -92,9 +93,24 @@ export class ProjectShowcase {
 
     if (this.badgeEl) this.badgeEl.textContent = `${num} / ${tot}`;
     if (this.yearEl) this.yearEl.textContent = proj.year || '';
-    if (this.titleEl) this.titleEl.textContent = proj.title || '';
     if (this.taglineEl) this.taglineEl.textContent = proj.tagline || '';
-    if (this.descEl) this.descEl.textContent = proj.description || '';
+
+    // DecryptedText effect for project heading (2 - 2.5s duration)
+    if (!this.titleDecrypted && this.titleEl) {
+      this.titleDecrypted = new DecryptedText(this.titleEl, {
+        text: proj.title || '',
+        animateOn: 'view',
+        duration: 2200,
+        speed: 40,
+        scrambleColor: '#2EE5EF'
+      });
+    } else if (this.titleDecrypted) {
+      this.titleDecrypted.setText(proj.title || '');
+    }
+
+    if (this.descEl) {
+      this.descEl.textContent = proj.description || '';
+    }
 
     if (this.imageEl) {
       this.imageEl.src = resolveAssetUrl(proj.image);

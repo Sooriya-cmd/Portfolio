@@ -19,10 +19,13 @@ export function initPortfolioOverlay(mountEl) {
           <span class="index-badge">00 / STREET INTRO</span>
         </div>
         <p class="section-eyebrow">${escapeHtml(content.hero.eyebrow)}</p>
-        <h1 class="panel-title">${escapeHtml(content.hero.headline)}</h1>
+        <div class="hero-tech-text-wrap" id="hero-tech-text-mount">
+          <h1 class="panel-title hero-name-title">${escapeHtml(content.hero.headline)}</h1>
+        </div>
         <p class="panel-subtitle">${escapeHtml(content.hero.subline)}</p>
+        <div class="hero-split-flap-wrap" id="hero-split-flap-mount"></div>
         <div class="panel-body">
-          <p>${escapeHtml(content.person.tagline)}</p>
+          <p>${escapeHtml(content.hero.tagline || content.person.tagline)}</p>
         </div>
         <div class="btn-group">
           <a href="#section-about" class="btn-primary" data-scroll-to="#section-about">
@@ -44,7 +47,7 @@ export function initPortfolioOverlay(mountEl) {
           <span class="index-badge">01 / ABOUT ME</span>
         </div>
         <p class="section-eyebrow">BACKGROUND</p>
-        <h2 class="panel-title">${escapeHtml(content.about.heading)}</h2>
+        <h2 class="panel-title" id="heading-about">${escapeHtml(content.about.heading)}</h2>
         <div class="panel-body">
           ${content.about.paragraphs.map(p => `<p>${escapeHtml(p)}</p>`).join('')}
         </div>
@@ -76,15 +79,16 @@ export function initPortfolioOverlay(mountEl) {
 
     <!-- SKILLS SECTION -->
     <section id="section-skills" class="portfolio-section" data-chapter="skills">
-      <div class="framed-panel" style="max-width: 860px;">
-        <div class="panel-header">
+      <div class="framed-panel skills-panel" style="max-width: 860px; position: relative; overflow: hidden;">
+        <div class="skills-glitch-bg" id="skills-glitch-canvas" aria-hidden="true"></div>
+        <div class="panel-header" style="position: relative; z-index: 2;">
           <span class="index-badge">02 / CRAFT & SKILLS</span>
         </div>
-        <p class="section-eyebrow">STACK</p>
-        <h2 class="panel-title">${escapeHtml(content.skills.heading)}</h2>
+        <p class="section-eyebrow" style="position: relative; z-index: 2;">STACK</p>
+        <h2 class="panel-title" id="heading-skills" style="position: relative; z-index: 2;">${escapeHtml(content.skills.heading)}</h2>
         
         <!-- Categorized Skills -->
-        <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 20px;">
+        <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 20px; position: relative; z-index: 2;">
           ${content.skills.categories.map(cat => `
             <div class="skill-category-box" style="background: #FFFFFF; border: var(--border-medium); border-radius: var(--radius-sm); padding: 14px 18px; box-shadow: 2px 2px 0px var(--color-panel-border);">
               <div style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 900; color: #3158DF; margin-bottom: 8px;">
@@ -110,7 +114,7 @@ export function initPortfolioOverlay(mountEl) {
           <span class="index-badge">03 / LEADERSHIP & RECOGNITION</span>
         </div>
         <p class="section-eyebrow">MILESTONES</p>
-        <h2 class="panel-title">${escapeHtml(content.experience.heading)}</h2>
+        <h2 class="panel-title" id="heading-experience">${escapeHtml(content.experience.heading)}</h2>
 
         <!-- Leadership Items -->
         <div style="margin-top: 20px;">
@@ -181,31 +185,14 @@ export function initPortfolioOverlay(mountEl) {
       </div>
     </section>
 
-    <!-- MORE PROJECTS TRANSITION -->
-    <section id="section-more-projects" class="portfolio-section" data-chapter="moreProjects">
-      <div class="framed-panel">
-        <div class="panel-header">
-          <span class="index-badge">04 / ??</span>
-        </div>
-        <p class="section-eyebrow">${escapeHtml(content.moreProjects.label)}</p>
-        <h2 class="panel-title">${escapeHtml(content.moreProjects.heading)}</h2>
-        <div class="panel-body">
-          <p>${escapeHtml(content.moreProjects.text)}</p>
-        </div>
-        <div class="btn-group">
-          <a href="#section-contact" class="btn-primary" data-scroll-to="#section-contact">GET IN TOUCH →</a>
-        </div>
-      </div>
-    </section>
-
     <!-- CONTACT SECTION -->
     <section id="section-contact" class="portfolio-section" data-chapter="contact">
       <div class="framed-panel">
         <div class="panel-header">
-          <span class="index-badge">05 / CONTACT</span>
+          <span class="index-badge">04 / CONTACT</span>
         </div>
         <p class="section-eyebrow">REACH OUT</p>
-        <h2 class="panel-title">${escapeHtml(content.contact.heading)}</h2>
+        <h2 class="panel-title" id="heading-contact">${escapeHtml(content.contact.heading)}</h2>
         <div class="panel-body">
           <p>${escapeHtml(content.contact.text)}</p>
         </div>
@@ -241,9 +228,9 @@ export function initPortfolioOverlay(mountEl) {
     <section id="section-ending" class="portfolio-section" data-chapter="ending">
       <div class="framed-panel">
         <div class="panel-header">
-          <span class="index-badge">06 / FINALE</span>
+          <span class="index-badge">05 / FINALE</span>
         </div>
-        <h2 class="panel-title">${escapeHtml(content.ending.heading)}</h2>
+        <h2 class="panel-title" id="heading-ending">${escapeHtml(content.ending.heading)}</h2>
         <div class="panel-body">
           <p style="font-size: 1.25rem; font-weight: 700; color: #3158DF; margin-bottom: 8px;">
             "${escapeHtml(content.ending.text)}"

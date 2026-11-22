@@ -1,0 +1,335 @@
+/* ==========================================================================
+   EFFECTS.CSS — React Bits Adapted Vanilla CSS Modules
+   Strictly adheres to portfolio design tokens and pop-art aesthetic.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Part 2 — TechText Wordmark
+   -------------------------------------------------------------------------- */
+.hero-tech-text-wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.tech-text-canvas {
+  display: block;
+  max-width: 100%;
+  cursor: crosshair;
+}
+
+.hero-name-title {
+  margin: 0;
+  display: none; /* Semantic accessibility fallback remains in DOM */
+}
+
+/* --------------------------------------------------------------------------
+   Part 3 — SplitFlapText (Minimal Variant — NO BOXES)
+   -------------------------------------------------------------------------- */
+.hero-split-flap-wrap {
+  margin: 10px 0 20px 0;
+  display: flex;
+  align-items: center;
+  min-height: 28px;
+}
+
+.split-flap-text {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 2.5px;
+  color: var(--color-cyan-layer);
+  font-family: var(--font-display);
+  font-size: clamp(14px, 2.6vw, 24px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  white-space: pre;
+  user-select: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.split-flap-text__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.split-flap-text__tile {
+  position: relative;
+  flex: none;
+  width: 0.76em;
+  height: 1.1em;
+  perspective: 12em;
+  transform-style: preserve-3d;
+  isolation: isolate;
+  background: none;
+  box-shadow: none;
+}
+
+.split-flap-text__half {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  background: none;
+  box-shadow: none;
+}
+
+.split-flap-text__half--top {
+  top: 0;
+  align-items: flex-end;
+  border-bottom: 1px solid rgba(18, 19, 36, 0.45);
+}
+
+.split-flap-text__half--bottom {
+  bottom: 0;
+  align-items: flex-start;
+}
+
+.split-flap-text__char {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200%;
+  color: var(--color-cyan-layer);
+  text-shadow: 1px 1px 0px rgba(18, 19, 36, 0.9);
+}
+
+.split-flap-text__half--top .split-flap-text__char {
+  transform: translateY(50%);
+}
+
+.split-flap-text__half--bottom .split-flap-text__char {
+  transform: translateY(-50%);
+}
+
+.split-flap-text__flap {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  background: none;
+  box-shadow: none;
+}
+
+.split-flap-text__flap--front {
+  top: 0;
+  align-items: flex-end;
+  transform-origin: bottom center;
+  animation: split-flap-front 0.10s linear both;
+  border-bottom: 1px solid rgba(18, 19, 36, 0.45);
+}
+
+.split-flap-text__flap--front .split-flap-text__char {
+  transform: translateY(50%);
+}
+
+.split-flap-text__flap--back {
+  bottom: 0;
+  align-items: flex-start;
+  transform-origin: top center;
+  transform: rotateX(90deg);
+  animation: split-flap-back 0.10s linear both;
+}
+
+.split-flap-text__flap--back .split-flap-text__char {
+  transform: translateY(-50%);
+}
+
+@keyframes split-flap-front {
+  0% { transform: rotateX(0deg); filter: brightness(1.1); }
+  50%, 100% { transform: rotateX(-90deg); filter: brightness(0.6); }
+}
+
+@keyframes split-flap-back {
+  0%, 50% { transform: rotateX(90deg); filter: brightness(0.6); }
+  100% { transform: rotateX(0deg); filter: brightness(1); }
+}
+
+/* Minimal variant specifically removes any box/card shapes */
+.split-flap-text--minimal .split-flap-text__tile {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   Part 4 — LetterGlitch Background (Skills Section)
+   -------------------------------------------------------------------------- */
+.skills-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.skills-glitch-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.letter-glitch-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Part 5 — Crosshair Scanner (Projects Showcase)
+   -------------------------------------------------------------------------- */
+.project-showcase-wrapper {
+  position: relative;
+}
+
+.crosshair-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 25;
+}
+
+/* --------------------------------------------------------------------------
+   Part 6 & 7 — ScrollExpand & GradientASCII (Entrance Background & Avatar)
+   -------------------------------------------------------------------------- */
+.entry-screen-ascii-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.38;
+  overflow: hidden;
+}
+
+.entry-screen-ascii-bg .gradient-ascii-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+.entry-image-container {
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.entry-hero-img {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.22);
+  transform-origin: center center;
+  transition: transform 60ms linear;
+}
+
+.scroll-expand-instruction {
+  margin-top: 18px;
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #121324;
+  background: rgba(255, 255, 255, 0.85);
+  border: var(--border-thin);
+  border-radius: var(--radius-pill);
+  padding: 4px 16px;
+  box-shadow: 2px 2px 0px var(--color-panel-border);
+  pointer-events: none;
+  transition: opacity 120ms linear, transform 120ms linear;
+}
+
+/* --------------------------------------------------------------------------
+   DecryptedText Component
+   -------------------------------------------------------------------------- */
+.decrypted-text-root {
+  display: inline-block;
+  white-space: pre-wrap;
+  position: relative;
+}
+
+.decrypted-text-display {
+  display: inline-block;
+  white-space: pre-wrap;
+  position: relative;
+}
+
+.decrypted-cell {
+  position: relative;
+  display: inline-block;
+}
+
+.decrypted-ghost {
+  visibility: hidden;
+}
+
+.decrypted-glyph {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  will-change: transform, color, opacity;
+}
+
+.decrypted-encrypted .decrypted-glyph {
+  color: var(--color-cyan-layer, #2EE5EF);
+  text-shadow: 0 0 6px rgba(46, 229, 239, 0.45);
+}
+
+/* --------------------------------------------------------------------------
+   ClickSpark Component Layer
+   -------------------------------------------------------------------------- */
+#click-spark-layer {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 99999;
+  overflow: visible;
+}
+
+/* --------------------------------------------------------------------------
+   Part 8 — Scroll-Reactive Glitch Shards
+   -------------------------------------------------------------------------- */
+.glitch-shards-layer {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 4;
+  overflow: hidden;
+}
+
+.glitch-shard {
+  pointer-events: none;
+  will-change: opacity, transform;
+}

@@ -24,8 +24,9 @@
   },
   "hero": {
     "eyebrow": "HELLO, I'M",
-    "headline": "Jayasooriya",
+    "headline": "JAYASOORIYA",
     "subline": "AI/ML Engineer & Software Developer",
+    "tagline": "Somewhere between 'I've got an idea' and 'Why isn't this working?'",
     "scrollHint": "SCROLL TO EXPLORE"
   },
   "about": {
@@ -147,7 +148,7 @@
       "description": "An open-source toolkit for testing AI agent memory systems against persistent, multi-turn memory poisoning attacks. Simulates multi-turn split-write memory poisoning, compares baseline and guarded experiments, verifies attacks using independent retrieval and canary checks, and generates structured experiment and security reports. Baseline and guarded attack success were both 100%. The configured guard recorded zero interventions, showing it did not prevent this tested attack scenario.",
       "tags": ["Python", "Ollama", "Llama 3.1", "Mem0", "ChromaDB", "Pytest"],
       "year": "2026",
-      "image": "/images/projects/project-01.svg",
+      "image": "/images/projects/MemoryBreaker.png",
       "imageAlt": "Visual preview of MemoryBreaker AI Agent Memory Security Toolkit",
       "links": {
         "live": "",
@@ -161,7 +162,7 @@
       "description": "A 3D spatial note-taking application that transforms local folders and knowledge into an interactive visual universe. Features interactive 3D knowledge graph, local folder and file visualisation, procedural planet shaders, animated explorers, auto-save, search, backlinks, and command palette.",
       "tags": ["React", "Three.js", "React Force Graph 3D", "Tailwind CSS", "Zustand"],
       "year": "2025",
-      "image": "/images/projects/project-02.svg",
+      "image": "/images/projects/NovaNotes.png",
       "imageAlt": "Visual preview of Nova-Notes 3D Spatial Knowledge Graph",
       "links": {
         "live": "",
@@ -175,7 +176,7 @@
       "description": "A MERN-stack application for managing college clubs, members, meetings and announcements. Features member and club management, meeting and announcement scheduling, REST API with CRUD operations, and a modular backend and database architecture.",
       "tags": ["React", "Vite", "Node.js", "Express.js", "MongoDB", "Mongoose"],
       "year": "2025",
-      "image": "/images/projects/project-03.svg",
+      "image": "/images/projects/ClubHub.png",
       "imageAlt": "Visual preview of ClubHub College Club Management System",
       "links": {
         "live": "",
@@ -183,11 +184,6 @@
       }
     }
   ],
-  "moreProjects": {
-    "heading": "MORE PROJECTS COMING SOON",
-    "text": "Additional explorations in Agentic AI, RAG architectures, and Full-Stack Engineering are in active development.",
-    "label": "STAY TUNED"
-  },
   "contact": {
     "heading": "SAY HELLO",
     "text": "Collab? Chaos? Random tech talks? I'm just one message away.",
@@ -213,7 +209,6 @@
       "skills": "Explore technical skills across Programming, AI/ML, Web, and Developer Tools.",
       "experience": "Leadership roles in IE(I) and INTELLIZONE, along with academic recognitions.",
       "projects": "Yeah...I also Don't know",
-      "moreProjects": "More projects and AI explorations are on the way!",
       "contact": "Connect with Jayasooriya via Email, GitHub, LinkedIn, or LeetCode.",
       "ending": "Curiosity starts the journey. Consistency builds the future."
     }
@@ -224,7 +219,6 @@
     "skills": "SKILLS",
     "experience": "EXPERIENCE",
     "projects": "PROJECTS",
-    "moreProjects": "MORE",
     "contact": "CONTACT",
     "ending": "THE END"
   },

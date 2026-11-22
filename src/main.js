@@ -13,6 +13,15 @@ import { initEntryScreen } from './ui/entryScreen.js';
 import { initPortfolioOverlay } from './ui/overlay.js';
 import { checkWebGLSupport } from './utils/device.js';
 import { initAccessibility } from './utils/accessibility.js';
+import {
+  TechText,
+  SplitFlapText,
+  LetterGlitch,
+  Crosshair,
+  ScrollGlitchShards,
+  ClickSpark,
+  applyDecryptedText
+} from './effects/index.js';
 
 // DOM Mount Targets
 const contentMount = document.getElementById('content-mount');
@@ -83,7 +92,6 @@ function initChapterMenu() {
     { id: 'section-skills', label: content.sections.skills || 'SKILLS' },
     { id: 'section-experience', label: content.sections.experience || 'EXPERIENCE' },
     { id: 'section-projects', label: content.sections.projects || 'PROJECTS' },
-    { id: 'section-more-projects', label: content.sections.moreProjects || 'MORE' },
     { id: 'section-contact', label: content.sections.contact || 'CONTACT' },
     { id: 'section-ending', label: content.sections.ending || 'THE END' }
   ];
@@ -278,6 +286,134 @@ function initJiuEyeTracking() {
   requestAnimationFrame(step);
 }
 
+/**
+ * Mobile tap-to-expand toggle for JIU assistant
+ */
+function initJiuMobileAssistant() {
+  const guideContainer = document.getElementById('guide-container');
+  const guideHead = document.querySelector('.guide-mascot-head');
+  if (guideContainer && guideHead) {
+    guideHead.style.cursor = 'pointer';
+    guideHead.setAttribute('role', 'button');
+    guideHead.setAttribute('aria-label', 'Toggle JIU guide message');
+    guideHead.addEventListener('click', (e) => {
+      e.stopPropagation();
+      guideContainer.classList.toggle('is-expanded');
+    });
+  }
+}
+
+/**
+ * Initialize Integrated Interactive Visual Effects
+ */
+function initEffects() {
+  const techTextMount = document.getElementById('hero-tech-text-mount');
+  if (techTextMount) {
+    new TechText(techTextMount, {
+      text: 'JAYASOORIYA',
+      fontFamily: '"Barlow Condensed", sans-serif',
+      fontWeight: 900,
+      color: '#121324',
+      accentColor: '#2EE5EF',
+      dashLength: 4,
+      dashGap: 2,
+      strokeWidth: 1.5,
+      specks: 8,
+      clickKick: true,
+      bounce: 0.3,
+      speed: 0.45,
+      sweep: true,
+      introDuration: 1.8
+    });
+  }
+
+  const splitFlapMount = document.getElementById('hero-split-flap-mount');
+  if (splitFlapMount) {
+    new SplitFlapText(splitFlapMount, {
+      words: [
+        'MACHINE LEARNING',
+        'AGENTIC AI',
+        'PYTHON & AI',
+        'SOFTWARE BUILDER'
+      ],
+      flipDuration: 0.10,
+      stagger: 0.035,
+      cycleDelay: 2600,
+      flipsPerChar: 5,
+      charset: 'alpha'
+    });
+  }
+
+  const skillsCanvasMount = document.getElementById('skills-glitch-canvas');
+  if (skillsCanvasMount && checkWebGLSupport()) {
+    new LetterGlitch(skillsCanvasMount, {
+      glitchColors: ['#3165E0', '#2EE5EF', '#FF4F92'],
+      baseColor: '#121324',
+      fontSize: 11,
+      spacing: 0.65,
+      density: 0.55,
+      baseOpacity: 0.09,
+      glitchAmount: 0.22,
+      speed: 0.55,
+      flow: 0.2,
+      edgeFade: 0.18,
+      centerFade: 0.75
+    });
+  }
+
+  const showcaseWrapper = document.querySelector('.project-showcase-wrapper');
+  if (showcaseWrapper) {
+    new Crosshair(showcaseWrapper, {
+      color: '#2EE5EF',
+      thickness: 1,
+      opacity: 0.45,
+      gap: 10,
+      fade: 0.25,
+      smoothing: 0.35,
+      targetSelector: 'a, button, [data-crosshair-target]',
+      clickPulse: true
+    });
+  }
+
+  // Global Scroll-Reactive Glitch Shards
+  new ScrollGlitchShards();
+
+  // Global Interactive ClickSpark System (React Bits)
+  new ClickSpark({
+    sparkColor: '#ffffff',
+    shape: 'line',
+    sparkCount: 8,
+    sparkSize: 14,
+    sparkRadius: 30,
+    sparkWidth: 2.5,
+    duration: 500,
+    easing: 'ease-out',
+    randomness: 0,
+    gravity: 0,
+    glow: 0,
+    ring: false
+  });
+
+  // Global DecryptedText Effect for Specified Headings (2 - 2.5s duration)
+  const headingsToDecrypt = [
+    '#heading-about',
+    '#heading-skills',
+    '#heading-experience',
+    '#heading-contact',
+    '#heading-ending'
+  ];
+  headingsToDecrypt.forEach(selector => {
+    applyDecryptedText(selector, {
+      animateOn: 'view',
+      duration: 2200, // 2.2 seconds smooth decryption
+      speed: 40,
+      sequential: true,
+      revealDirection: 'start',
+      scrambleColor: '#2EE5EF'
+    });
+  });
+}
+
 // Prevent browser from restoring scrolled position on refresh
 if (typeof history !== 'undefined' && 'scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
@@ -299,6 +435,8 @@ bindInteractiveLinks();
 initChapterMenu();
 initScrollTracking();
 initSoundControl();
+initEffects();
+initJiuMobileAssistant();
 
 // 2. Initialize Entry Welcome Screen
 initEntryScreen({
